@@ -1,0 +1,772 @@
+:root {
+  --background-color: #f4f7fa;
+  --sidebar-bg: #ffffff;
+  --card-bg: #ffffff;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --border-color: #e0e0e0;
+  --primary-color: #007bff;
+  --accent-green: #28a745;
+  --accent-blue: #17a2b8;
+  --font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-primary);
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+html {
+  overflow-y: scroll;
+}
+/* Sidebar Styles */
+.sidebar {
+
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+    font-size: 32px;
+    color: var(--primary-color);
+    margin-right: 10px;
+}
+
+.nav {
+  list-style: none;
+  padding: 0;
+}
+.nav-item svg {
+    margin-right: 15px;
+    font-size: 20px;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex-grow: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+header h1 {
+  font-size: 28px;
+  margin: 0;
+}
+
+/* Upload Zone Styles */
+.upload-zone {
+  background-color: #eaf6ff;
+  border: 2px dashed #9dcdff;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.upload-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Stats Grid Styles */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background-color: var(--card-bg);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.stat-card .title {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.stat-card .value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Dashboard Grid Styles */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  gap: 24px;
+}
+
+.chart-card {
+  background-color: var(--card-bg);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.chart-card h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+/* Heatmap Styles */
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
+}
+
+.heatmap-cell {
+  width: 100%;
+  padding-bottom: 100%; /* Maintain aspect ratio */
+  border-radius: 4px;
+}
+
+/* Word Cloud Styles */
+.word-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.word-cloud span {
+  padding: 4px 8px;
+}
+
+/* --- 从附件应用的修复样式 --- */
+
+/* 用于 LibraryView 的书籍卡片 */
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.book-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.book-cover {
+  width: 100%;
+  height: 240px;
+  background-color: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: #adb5bd;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.book-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.book-card-info {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.book-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  overflow: hidden;
+  align-content: center;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  min-height: 40px;
+  line-height: 20px;
+  flex-shrink: 0;
+}
+
+.book-card p {
+  margin: 0 0 0 0;
+  font-size: 13px;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.book-card-stats {
+  margin-top: auto;
+  font-size: 14px;
+  padding-top: 8px;
+}
+
+/* 用于 BookHighlightsPage 的摘录卡片 */
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.highlight-card {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.highlight-card blockquote {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: #343a40;
+}
+
+.highlight-meta {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #6c757d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  min-height: 24px;
+}
+
+.highlight-meta > span:first-child {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+
+/* --- 最终修复: 替换所有 .nav-item 相关样式 --- */
+
+/* 
+ * 关键修复：
+ * 1. text-decoration: none; -> 移除所有链接的下划线。
+ * 2. font-weight: 500; -> 为所有状态（激活/非激活）设置统一的字体粗细，防止宽度变化。
+ * 3. color: var(--text-primary); -> 统一默认和访问后的颜色，防止变紫。
+*/
+.nav-item, .nav-item:visited {
+  padding: 15px 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s, color 0.3s;
+  
+  /* 解决下划线、颜色和宽度变化的核心代码 */
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.nav-item:hover {
+  background-color: #f0f0f0;
+  color: var(--text-primary); /* 确保悬浮时颜色正确 */
+}
+
+/* NavLink 激活时的样式 (只改变背景和文字颜色，不改变字体粗细) */
+.nav-item.active {
+  background-color: #e7f3ff;
+  color: var(--primary-color); /* #007bff */
+}
+
+/* --- 结束附件样式 --- */
+
+/* --- FIX: 添加此样式以修复作者链接颜色 --- */
+.author-link,
+.author-link:visited {
+  color: #6c757d; /* 设置你想要的链接颜色 */
+  text-decoration: none; /* 移除下划线 */
+}
+
+.author-link:hover {
+  text-decoration: underline;
+}
+
+/* --- FIX: 为全局摘录文本添加样式 --- */
+.global-highlight-text {
+  margin: 0 0 16px 0;
+  font-family: 'Georgia', serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #343a40;
+  font-style: italic;
+}
+
+/* --- FIX: 添加以下所有新样式到 App.css 末尾 --- */
+
+/* General Page Header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+.actions { display: flex; gap: 16px; }
+.search-bar { display: flex; align-items: center; background: #fff; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; }
+.search-bar input { border: none; outline: none; margin-left: 8px; }
+.filter-button { background: #fff; border: 1px solid #ccc; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+
+
+/* Highlights View List */
+.highlights-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.highlight-list-item {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #e9ecef;
+}
+.highlight-list-item h3 {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+}
+.highlight-text {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #343a40;
+    margin: 0 0 16px 0;
+}
+.highlight-list-item .highlight-meta {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #6c757d;
+    position: relative;
+    min-height: 24px;
+}
+
+.highlight-meta > .date,
+.note-control {
+  white-space: nowrap;
+}
+
+.note-control {
+  display: flex;
+  align-items: center;
+}
+
+/* Reserve space for note button even when no note exists */
+.highlight-list-item:not(.has-note) .date::after {
+  content: '';
+  display: inline-block;
+  margin-left: 0px;
+}
+
+/* Author Page Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  width: 420px;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px; right: 15px;
+  border: none; background: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.modal-content h3 { margin: 0 0 4px 0; font-size: 20px; }
+.modal-subtitle { margin: 0 0 20px 0; color: #666; }
+
+.modal-book-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #f8f9fa;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+.modal-book-cover { font-size: 30px; color: #adb5bd; }
+.modal-book-info { 
+  flex-grow: 1;
+  min-width: 0;
+}
+.modal-book-info h4 { 
+  margin: 0 0 2px 0; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  min-width: 0;
+}
+.modal-book-info p { margin: 0; color: #666; font-size: 14px; }
+.modal-book-stats { display: flex; align-items: center; gap: 4px; margin-top: 8px; }
+.view-clippings-button {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* Note panel and button styles */
+.note-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #b2b6ba; /* 灰色图标 */
+  font-size: 18px;
+
+  border-radius: 6px;
+  transition: color 150ms ease, transform 120ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.note-button:hover { color: #495057; transform: translateY(-2px); }
+
+.note-panel {
+  margin-top: 20px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+.note-panel h4 { margin: 0 0 8px 0; }
+.note-content { margin: 0 0 0 0; white-space: pre-wrap; word-break: break-word; }
+.note-clear { background: #f5f5f5; border: 1px solid #ddd; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+.note-placeholder { color: #888; }
+
+/* Inline expandable note panel used per highlight */
+.note-panel-inline {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 260ms ease, opacity 200ms ease, margin-top 200ms ease;
+  opacity: 0;
+  margin-top: -6px; /* 收起时略微上移，与卡片产生堆叠感 */
+}
+.note-panel-inline .note-panel-inner {
+  padding: 8px 0 0 0;
+}
+.note-panel-inline.open {
+  max-height: 300px; /* 控制展开后的高度，避免留白过多 */
+  opacity: 1;
+  margin-top: 8px; /* 展开时与卡片保留小间隙 */
+}
+
+.note-content { white-space: pre-wrap; word-break: break-word; }
+
+/* --- 提示堆叠感的阴影，用于有笔记的卡片 --- */
+/* 确保容器可放置伪元素 */
+.highlight-list-item,
+.highlight-card {
+  position: relative;
+}
+
+.highlight-list-item.has-note::after,
+.highlight-card.has-note::after {
+  content: '';
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: -6px;
+  height: 8px;
+  border-radius: 6px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.08), rgba(0,0,0,0.02));
+  opacity: 1;
+  transition: opacity 180ms ease, transform 180ms ease;
+  pointer-events: none;
+}
+
+/* 打开笔记时隐藏提示阴影，卡片与笔记面板显得连在一起 */
+.highlight-list-item.has-note.note-open::after,
+.highlight-card.has-note.note-open::after {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+/* 如果没有笔记，确保不会显示提示 */
+.highlight-list-item:not(.has-note)::after,
+.highlight-card:not(.has-note)::after { display: none; }
+
+/* 展开时略微降低卡片阴影，让笔记面板显得是卡片的一部分 */
+.highlight-list-item.note-open,
+.highlight-card.note-open {
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+}
+
+/* Filter dropdown styles */
+.filter-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-dropdown label {
+  font-weight: 500;
+  color: #555;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* No results message */
+.no-results {
+  text-align: center;
+  font-size: 1.1em;
+  color: #888;
+  padding: 50px 20px;
+}
+
+/* Edit and action buttons */
+.header-with-edit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-with-edit h1,
+.header-with-edit p {
+  margin: 0;
+}
+
+.edit-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #b2b6ba;
+  font-size: 16px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: color 150ms ease, background 150ms ease;
+  display: none;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-with-edit:hover .edit-btn {
+  display: inline-flex;
+  color: #495057;
+}
+
+.edit-input {
+  padding: 8px 12px;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  font-size: inherit;
+  font-family: inherit;
+  background: #fff;
+  color: #333;
+  transition: border-color 150ms ease;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.highlight-text-with-actions {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  position: relative;
+}
+
+.highlight-text-with-actions .highlight-text {
+  flex-grow: 1;
+}
+
+.highlight-actions {
+  display: none;
+  flex-shrink: 0;
+  margin-left: 0;
+}
+
+.highlight-list-item:hover .highlight-actions,
+.highlight-card:hover .highlight-actions {
+  display: inline-flex;
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #b2b6ba;
+  font-size: 14px;
+  padding: 6px 6px;
+  border-radius: 4px;
+  transition: color 150ms ease;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 24px;
+}
+
+.action-btn:hover {
+  color: #495057;
+}
+
+.action-btn.delete:hover {
+  color: #dc3545;
+}
+
+.edit-highlight-mode {
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.edit-textarea {
+  width: 97%;
+  min-height: 120px;
+  padding: 12px;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  font-family: 'Georgia', serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #343a40;
+  background: #fff;
+  resize: vertical;
+  margin-bottom: 12px;
+  transition: border-color 150ms ease;
+}
+
+.edit-textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-save,
+.btn-cancel {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 150ms ease;
+}
+
+.btn-save {
+  background: #28a745;
+  color: white;
+}
+
+.btn-save:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+.btn-cancel {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.btn-cancel:hover {
+  background: #dee2e6;
+  transform: translateY(-1px);
+}
+
