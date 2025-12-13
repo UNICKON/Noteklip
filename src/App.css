@@ -28,11 +28,14 @@ html {
 /* Sidebar Styles */
 .sidebar {
 
+  flex-shrink: 0;
   background-color: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
   padding: 20px;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  min-height: 100vh;
 }
 
 .logo {
@@ -51,12 +54,49 @@ html {
 }
 
 .nav {
-  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
   padding: 0;
 }
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.lang-switch {
+  display: flex;
+  gap: 8px;
+}
+
+.lang-switch-btn {
+  appearance: none;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.lang-switch-btn.active {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+.nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 .nav-item svg {
-    margin-right: 15px;
-    font-size: 20px;
+  margin: 0;
+  font-size: 20px;
+  flex-shrink: 0;
 }
 
 /* Main Content Styles */
@@ -128,9 +168,33 @@ header h1 {
 /* Dashboard Grid Styles */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   grid-template-rows: auto;
   gap: 24px;
+}
+
+.dashboard-controls {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 24px 0;
+}
+
+.dashboard-controls label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: #475569;
+  gap: 6px;
+}
+
+.dashboard-controls input,
+.dashboard-controls select {
+  border: 1px solid #cbd5f5;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  min-width: 120px;
 }
 
 .chart-card {
@@ -140,10 +204,69 @@ header h1 {
   box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 
+.dashboard-card-header[draggable="true"],
+.heatmap-card-header[draggable="true"],
+.stat-card .title[draggable="true"],
+.chart-card h3[draggable="true"] {
+  cursor: grab;
+  user-select: none;
+}
+
+.chart-card.is-dragging .dashboard-card-header,
+.chart-card.is-dragging .heatmap-card-header,
+.stat-card.is-dragging .title,
+.chart-card.is-dragging h3[draggable="true"] {
+  cursor: grabbing;
+}
+
+.chart-card.is-dragging,
+.stat-card.is-dragging {
+  opacity: 0.6;
+}
+
+.chart-card.is-drag-over,
+.stat-card.is-drag-over {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
 .chart-card h3 {
   margin-top: 0;
   margin-bottom: 20px;
   font-size: 18px;
+}
+
+ .chart-body {
+ margin-left: -30px; 
+}
+
+/* @media (max-width: 768px) {
+  .chart-body {
+    margin: 0 -6px;
+  }
+}
+
+.insight-progress {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow 0.2s ease;
+}
+
+.insight-progress__value {
+  height: 100%;
+  border-radius: 999px;
+  transition: transform 0.2s ease;
+}
+
+.insight-progress:hover {
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.insight-progress:hover .insight-progress__value {
+  transform: scaleY(1.3);
 }
 
 /* Heatmap Styles */
@@ -153,11 +276,6 @@ header h1 {
   gap: 4px;
 }
 
-.heatmap-cell {
-  width: 100%;
-  padding-bottom: 100%; /* Maintain aspect ratio */
-  border-radius: 4px;
-}
 
 /* Word Cloud Styles */
 .word-cloud {
@@ -170,6 +288,250 @@ header h1 {
 
 .word-cloud span {
   padding: 4px 8px;
+}
+
+
+.placeholder-text {
+  color: #94a3b8;
+  margin: 0;
+}
+
+.dashboard-clickable {
+  cursor: pointer;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+.dashboard-clickable:hover {
+  transform: scale(1.02);
+  opacity: 0.95;
+}
+
+.author-selector {
+  margin-bottom: 12px;
+}
+
+.author-selector select {
+  border: 1px solid #cbd5f5;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  margin-top: 6px;
+  min-width: 220px;
+}
+
+.heatmap-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.heatmap-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.heatmap-year {
+  width: 44px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.heatmap-months {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.heatmap-cell {
+  width: 100%;
+  /* padding-bottom: 100%;  */
+  border-radius: 4px;
+  aspect-ratio: 1 / 1;
+  min-height: 18px;
+
+  display: inline-block;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: default;
+  font-size: 0;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.heatmap-cell.clickable {
+  cursor: pointer;
+}
+
+.heatmap-cell:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.1);
+}
+
+.heatmap-cell.level-0 {
+  background: #f1f5f9;
+}
+
+.heatmap-cell.level-1 {
+  background: #c7d2fe;
+}
+
+.heatmap-cell.level-2 {
+  background: #a5b4fc;
+}
+
+.heatmap-cell.level-3 {
+  background: #818cf8;
+}
+
+.heatmap-cell.level-4 {
+  background: #4c51bf;
+}
+
+/* Daily heatmap (last 365 days) */
+.daily-heatmap {
+  --daily-cell: 16px;
+  --daily-gap: 4px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--daily-cell);
+  grid-template-rows: repeat(7, var(--daily-cell));
+  gap: var(--daily-gap);
+}
+
+.daily-heatmap-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* 预留空间给横向滚动条，避免遮挡最后一行格子（Windows 更明显） */
+  padding-bottom: 125px;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(229,232,236, 0.55) transparent;
+}
+
+.heatmap-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.heatmap-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border-radius: 999px;
+  padding: 2px;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.heatmap-toggle__btn {
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.heatmap-toggle__btn.is-active {
+  background: #f8fafc;
+  color: #0f172a;
+  box-shadow: none;
+}
+
+.daily-heatmap-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.daily-heatmap-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.daily-heatmap-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.55);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.daily-heatmap-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 116, 139, 0.6);
+}
+
+.daily-heatmap-week {
+  display: grid;
+  grid-template-rows: repeat(7, var(--daily-cell));
+  gap: var(--daily-gap);
+}
+
+.daily-heatmap-cell {
+  width: var(--daily-cell);
+  height: var(--daily-cell);
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.daily-heatmap-cell.clickable {
+  cursor: pointer;
+}
+
+.daily-heatmap-cell:hover {
+  transform: translateY(-1px) scale(1.05);
+}
+
+.daily-heatmap-cell.empty {
+  background: transparent;
+  box-shadow: none;
+}
+
+.daily-heatmap-cell.level-0 {
+  background: #f1f5f9;
+}
+
+.daily-heatmap-cell.level-1 {
+  background: #bbf7d0;
+}
+
+.daily-heatmap-cell.level-2 {
+  background: #86efac;
+}
+
+.daily-heatmap-cell.level-3 {
+  background: #4ade80;
+}
+
+.daily-heatmap-cell.level-4 {
+  background: #16a34a;
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.stats-table th,
+.stats-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.stats-table th {
+  font-weight: 600;
+  color: #475569;
+  background: #f8fafc;
+}
+
+.stats-table tbody tr:hover {
+  background: #f1f5f9;
+}
+
+.stats-table td:last-child,
+.stats-table th:last-child {
+  text-align: right;
 }
 
 /* --- 从附件应用的修复样式 --- */
@@ -217,7 +579,7 @@ header h1 {
 .book-cover img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .book-card-info {
@@ -312,6 +674,9 @@ header h1 {
   cursor: pointer;
   display: flex;
   align-items: center;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
   transition: background-color 0.3s, color 0.3s;
   
   /* 解决下划线、颜色和宽度变化的核心代码 */
@@ -331,6 +696,116 @@ header h1 {
   color: var(--primary-color); /* #007bff */
 }
 
+.export-page {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-subtitle {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
+.export-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: #f8fbff;
+  border: 1px solid #dce7ff;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+  width: 100%;
+  margin: 0 auto;
+  max-width: 620px;
+}
+
+.export-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.export-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.export-field select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+  font-size: 14px;
+  background: #fff;
+}
+
+.export-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.export-button {
+  border: none;
+  background: linear-gradient(120deg, #2563eb, #4f46e5);
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.export-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.export-button:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+.export-status {
+  font-size: 13px;
+  color: #0f172a;
+  background: #e0f2fe;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.export-details h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.export-details p {
+  margin: 0;
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+@media (max-width: 900px) {
+  .export-card {
+    padding: 24px;
+  }
+}
+
 /* --- 结束附件样式 --- */
 
 /* --- FIX: 添加此样式以修复作者链接颜色 --- */
@@ -342,6 +817,13 @@ header h1 {
 
 .author-link:hover {
   text-decoration: underline;
+}
+
+.dashboard-link,
+.dashboard-link:visited,
+.dashboard-link:hover {
+  color: inherit;
+  text-decoration: none;
 }
 
 /* --- FIX: 为全局摘录文本添加样式 --- */
@@ -362,6 +844,12 @@ header h1 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
+}
+.export-header {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
 }
 .actions { display: flex; gap: 16px; }
 .search-bar { display: flex; align-items: center; background: #fff; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; }
@@ -610,6 +1098,58 @@ header h1 {
   padding: 50px 20px;
 }
 
+.pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e5e7eb;
+}
+
+.pagination span {
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.page-button {
+  min-width: 36px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid #d0d7e2;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.page-button:hover:not(:disabled),
+.page-button:focus-visible {
+  background: #e0ecff;
+  border-color: #93c5fd;
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.page-button.active {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+  cursor: default;
+  transform: none;
+}
+
+.page-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* Edit and action buttons */
 .header-with-edit {
   display: flex;
@@ -768,5 +1308,144 @@ header h1 {
 .btn-cancel:hover {
   background: #dee2e6;
   transform: translateY(-1px);
+}
+
+/* Settings page */
+.settings-page .page-header {
+  margin-bottom: 24px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.settings-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.settings-row__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.settings-card-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.settings-card-header svg {
+  font-size: 28px;
+  color: #4f46e5;
+}
+
+.settings-card h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.settings-card p {
+  margin: 4px 0 0;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.settings-steps {
+  margin: 0;
+  padding-left: 20px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.settings-steps li + li {
+  margin-top: 6px;
+}
+
+.settings-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.settings-actions button {
+  border: none;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.settings-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.settings-actions button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.settings-actions .primary {
+  background: #2563eb;
+  color: #fff;
+  box-shadow: none;
+}
+
+.settings-actions .secondary {
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #d0d7e2;
+}
+
+.settings-actions .danger {
+  background: #ef4444;
+  color: #fff;
+  box-shadow: none;
+}
+
+.settings-status {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.settings-card.warning {
+  border: 1px solid #fecdd3;
+  background: linear-gradient(180deg, #fff7f7, #fff);
+}
+
+.settings-warning {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 0.9rem;
+  align-items: center;
+}
+
+.settings-warning svg {
+  font-size: 18px;
 }
 

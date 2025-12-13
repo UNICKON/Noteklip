@@ -2,8 +2,20 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Klip Dashboard</title>
+    <script>
+      (function () {
+        try {
+          var redirect = sessionStorage.getItem('gh_pages_redirect');
+          if (redirect) {
+            sessionStorage.removeItem('gh_pages_redirect');
+            history.replaceState(null, '', redirect);
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
