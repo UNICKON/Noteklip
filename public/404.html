@@ -1,22 +1,24 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Redirecting…</title>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Klip Dashboard</title>
     <script>
-      // GitHub Pages SPA fallback: redirect unknown paths to /<repo>/
       (function () {
-        var path = window.location.pathname || '/';
-        var parts = path.split('/').filter(Boolean);
-        var base = parts.length ? '/' + parts[0] + '/' : '/';
-        var full = window.location.pathname + window.location.search + window.location.hash;
         try {
-          window.sessionStorage.setItem('gh_pages_redirect', full);
+          var redirect = sessionStorage.getItem('gh_pages_redirect');
+          if (redirect) {
+            sessionStorage.removeItem('gh_pages_redirect');
+            history.replaceState(null, '', redirect);
+          }
         } catch (e) {}
-        window.location.replace(base);
       })();
     </script>
   </head>
-  <body></body>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
