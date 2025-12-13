@@ -20,3 +20,9 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+t1.py
+
+process_backup.py
+
+main.js
