@@ -1,40 +1,77 @@
 <div align="center">
 
-<img src="public/siobar-logo.svg" width="120" height="120" alt="NoteKlip Logo" />
-
 # 📚 NoteKlip
 
 ### Transform Your Kindle Highlights into Actionable Insights
-
-*A privacy-first, browser-based dashboard for managing and visualizing Kindle annotations*
+### 将你的 Kindle 标注转化为可操作的洞察
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![React](https://img.shields.io/badge/React-18.2-61dafb?logo=react&logoColor=white)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-5.1-646cff?logo=vite&logoColor=white)](https://vitejs.dev/)
-[![TypeScript](https://img.shields.io/badge/JavaScript-ES6+-f7df1e?logo=javascript&logoColor=black)](https://developer.mozilla.org/)
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-noteklip.org-4caf50)](https://noteklip.org)
-
-[🇬🇧 English](#english) | [🇨🇳 中文](#中文)
+[![React](https://img.shields.io/badge/React-18.2-61dafb?logo=react)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.1-646cff?logo=vite)](https://vitejs.dev/)
+[![Live Demo](https://img.shields.io/badge/demo-noteklip.org-success)](https://noteklip.org)
 
 ---
+
+## 📖 Documentation / 文档
+
+Choose your language / 选择语言：
+
+<table>
+<tr>
+<td align="center" width="50%">
+<a href="./README_EN.md">
+<img src="https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/gb.svg" width="100" alt="English">
+<br><br>
+<strong>🇬🇧 English Documentation</strong>
+<br><br>
+Complete guide in English
+</a>
+</td>
+<td align="center" width="50%">
+<a href="./README_ZH.md">
+<img src="https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/cn.svg" width="100" alt="中文">
+<br><br>
+<strong>🇨🇳 中文文档</strong>
+<br><br>
+完整的中文指南
+</a>
+</td>
+</tr>
+</table>
+
+---
+
+### ⚡ Quick Start / 快速开始
+
+```bash
+# Clone repository / 克隆仓库
+git clone https://github.com/UNICKON/klips.git
+cd klips
+
+# Install dependencies / 安装依赖
+npm install
+
+# Start development server / 启动开发服务器
+npm run dev
+```
+
+---
+
+### 🌐 Live Demo / 在线演示
+
+**Visit / 访问:** [noteklip.org](https://noteklip.org)
+
+---
+
+<sub>Built with ❤️ by readers, for readers | 由读者制作，为读者服务</sub>
 
 </div>
 
 ## English
 
-### 🎯 What is NoteKlip?
+### 🌟 Overview
 
 **NoteKlip** is a privacy-first, browser-based dashboard for managing and visualizing your Kindle highlights. Upload your `My Clippings.txt` file and instantly gain insights into your reading habits, discover patterns across books and authors, and revisit your favorite passages—all without sending your data to any server.
-
-<div align="center">
-
-**📱 Kindle → 📄 Export → 🌐 NoteKlip → 📊 Insights**
-
-| 🎨 Beautiful UI | 🔒 Private by Design | ⚡ Lightning Fast | 🌍 Multilingual |
-|:---:|:---:|:---:|:---:|
-| Modern & responsive | Zero server uploads | Instant operations | English & 中文 |
-
-</div>
 
 ### ✨ Key Features
 
@@ -84,607 +121,141 @@
 
 ---
 
-### 🏗️ System Architecture
+### 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        NoteKlip Web Application                  │
-├─────────────────────────────────────────────────────────────────┤
-│  🎨 Presentation Layer (React 18 + Vite)                        │
-│  ┌──────────────┬──────────────┬──────────────┬──────────────┐ │
-│  │  Dashboard   │   Library    │  Highlights  │   Settings   │ │
-│  │  Analytics   │   Browse     │   Explorer   │   Import     │ │
-│  └──────────────┴──────────────┴──────────────┴──────────────┘ │
-├─────────────────────────────────────────────────────────────────┤
-│  🧠 Business Logic Layer                                        │
-│  ┌──────────────┬──────────────┬──────────────┬──────────────┐ │
-│  │  Statistics  │  Search &    │   Data       │   Export/    │ │
-│  │  Engine      │  Filter      │   Parser     │   Import     │ │
-│  └──────────────┴──────────────┴──────────────┴──────────────┘ │
-├─────────────────────────────────────────────────────────────────┤
-│  💾 Data Storage Layer (Browser-Local)                         │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  IndexedDB: Books, Highlights, Authors, Metadata        │  │
-│  │  LocalStorage: User Preferences, UI State               │  │
-│  │  SessionStorage: Temporary Search State                 │  │
-│  └──────────────────────────────────────────────────────────┘  │
-├─────────────────────────────────────────────────────────────────┤
-│  🎭 UI Component Library                                        │
-│  │  Recharts • React Router • React Icons • Custom Charts   │  │
-└─────────────────────────────────────────────────────────────────┘
-         ↑                                                ↑
-         │ HTTP/HTTPS                                     │ No Server
-         │ Static Files Only                              │ Communication
-         ↓                                                ↓
-   ☁️ CDN / Pages                                    🔒 100% Local
-```
-
-**Data Flow Diagram:**
-
-```
-Import Flow:
-  My Clippings.txt → Parser → Normalizer → Deduplicator → IndexedDB
-
-Query Flow:
-  User Action → API Facade → IndexedDB Query → Data Transform → UI Render
-
-Export Flow:
-  IndexedDB → Data Serializer → JSON Generator → Browser Download
+NoteKlip/
+├── 🎨 Frontend (React 18 + Vite)
+│   ├── Dashboard       → Visualizations & insights
+│   ├── Library         → Book browsing & search
+│   ├── Highlights      → Full-text highlight explorer
+│   ├── Export          → Backup & data portability
+│   └── Settings        → Import & preferences
+│
+├── 📊 Data Layer (Local Storage)
+│   ├── IndexedDB       → Persistent highlight storage
+│   ├── State Manager   → React Context + Hooks
+│   └── API Facade      → Unified data access layer
+│
+└── 🎭 UI Components
+    ├── Recharts        → Data visualization
+    ├── React Router    → SPA navigation
+    └── React Icons     → Iconography
 ```
 
 ---
 
 ### 🚀 Quick Start
 
-<table>
-<tr>
-<td width="50%">
+#### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
-#### 🖥️ **Local Development**
+#### Installation
 
 ```bash
-# 1️⃣ Clone repository
+# Clone the repository
 git clone https://github.com/UNICKON/klips.git
 cd klips
 
-# 2️⃣ Install dependencies
+# Install dependencies
 npm install
 
-# 3️⃣ Start dev server (with HMR)
+# Start development server
 npm run dev
-
-# 🌐 Open browser
-# → http://localhost:5173
 ```
 
-**Development Features:**
-- ⚡ Hot Module Replacement
-- 🔍 React DevTools support
-- 📦 Fast refresh on save
-- 🐛 Source maps enabled
+Visit `http://localhost:5173` to see NoteKlip in action.
 
-</td>
-<td width="50%">
-
-#### 📦 **Production Build**
+#### Building for Production
 
 ```bash
-# 1️⃣ Create optimized build
+# Create optimized build
 npm run build
 
-# 📊 Build output:
-# ✓ dist/index.html
-# ✓ dist/assets/*.js (minified + tree-shaken)
-# ✓ dist/assets/*.css (optimized)
-
-# 2️⃣ Preview locally
+# Preview production build locally
 npm run preview
-
-# 🌐 Open browser
-# → http://localhost:4173
 ```
-
-**Build Optimizations:**
-- 🗜️ Code splitting & lazy loading
-- 📉 Minification & tree-shaking
-- 🖼️ Asset optimization
-- 📦 Gzip-ready output
-
-</td>
-</tr>
-</table>
-
-**System Requirements:**
-- Node.js: `18.0.0` or higher
-- npm: `9.0.0` or higher (or Yarn 1.22+)
-- Browser: Modern browsers with ES6+ support
-- Disk Space: ~200MB for dependencies
 
 ---
 
-### 📦 Deployment Options
+### 📦 Deployment
 
-<table>
-<tr>
-<td width="50%">
+#### Deploy to Cloudflare Pages (Recommended)
 
-#### ☁️ **Cloudflare Pages** (Recommended)
+1. **Connect Repository**: Link your GitHub repo to Cloudflare Pages
+2. **Configure Build**:
+   - Build command: `npm ci && npm run build`
+   - Output directory: `dist`
+   - Environment variable: `VITE_BASE=/`
+3. **Deploy**: Push to `main` branch triggers auto-deployment
 
-**Why Cloudflare Pages?**
-- ✅ Global CDN (300+ locations)
-- ✅ Unlimited bandwidth
-- ✅ Automatic HTTPS
-- ✅ Instant rollbacks
-- ✅ Free tier available
+#### Deploy to GitHub Pages
 
-**Setup Steps:**
+1. **Enable Pages**: Go to `Settings` → `Pages` → Select `GitHub Actions`
+2. **Auto-Deploy**: The included workflow (`.github/workflows/pages.yml`) handles everything
+3. **Access**: Visit `https://<username>.github.io/klips/`
 
-1. **Connect Repository**
-   ```
-   Cloudflare Dashboard → Pages → Create project
-   → Connect GitHub account → Select klips repo
-   ```
-
-2. **Configure Build Settings**
-   ```yaml
-   Build command:    npm ci && npm run build
-   Build output:     dist
-   Root directory:   (leave empty)
-   Environment vars: VITE_BASE=/
-   ```
-
-3. **Deploy**
-   ```bash
-   git push origin main
-   # ⏱️ Build time: ~1-2 minutes
-   # 🌐 Live at: https://klips.pages.dev
-   ```
-
-**Custom Domain Setup:**
-```
-Cloudflare Pages → Custom domains → Add domain
-→ noteklip.org → Verify DNS → Done ✓
-```
-
-</td>
-<td width="50%">
-
-#### 🐙 **GitHub Pages**
-
-**Why GitHub Pages?**
-- ✅ Free hosting for public repos
-- ✅ Built-in CI/CD with Actions
-- ✅ Easy setup
-- ✅ Version control integration
-
-**Setup Steps:**
-
-1. **Enable GitHub Actions**
-   ```
-   Repository Settings → Pages
-   → Source: GitHub Actions
-   ```
-
-2. **Workflow Auto-Configured**
-   - File: `.github/workflows/pages.yml`
-   - Trigger: Push to `main`
-   - Output: `https://<user>.github.io/klips/`
-
-3. **Environment Variable**
-   ```yaml
-   # Workflow sets automatically:
-   VITE_BASE: /${{ github.event.repository.name }}/
-   ```
-
-4. **Deploy**
-   ```bash
-   git push origin main
-   # ⏱️ Build time: ~2-3 minutes
-   # 🌐 Check Actions tab for status
-   ```
-
-**Custom Domain (Optional):**
-```
-Settings → Pages → Custom domain
-→ Add CNAME record → Save
-```
-
-</td>
-</tr>
-</table>
-
-<details>
-<summary><b>🚢 Other Deployment Options</b></summary>
-
-| Platform | Difficulty | Cost | Performance | Notes |
-|----------|-----------|------|-------------|-------|
-| **Vercel** | ⭐ Easy | Free tier | ⚡⚡⚡ Excellent | Auto HTTPS, instant deploys |
-| **Netlify** | ⭐ Easy | Free tier | ⚡⚡⚡ Excellent | Form handling, serverless |
-| **AWS S3 + CloudFront** | ⭐⭐⭐ Advanced | Pay-as-you-go | ⚡⚡⚡ Excellent | Full control, scalable |
-| **Self-Hosted (Nginx)** | ⭐⭐⭐⭐ Expert | Server costs | Varies | Complete ownership |
-
-</details>
-
-**Deployment Checklist:**
-
-- [ ] Set correct `VITE_BASE` environment variable
-- [ ] Verify `_redirects` file in `public/` (for SPA routing)
-- [ ] Test build locally: `npm run build && npm run preview`
-- [ ] Check `robots.txt` and `sitemap.xml` are included
-- [ ] Confirm custom domain DNS (if applicable)
-- [ ] Test all routes after deployment
+> **Note**: The project auto-detects deployment paths via `VITE_BASE` environment variable.
 
 ---
 
 ### 🛠️ Tech Stack
 
-<table>
-<tr>
-<td width="33%" align="center">
-
-**⚛️ Core Framework**
-
-[![React](https://img.shields.io/badge/React-18.2-61dafb?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
-
-Component-based architecture with Hooks & Context API
-
-</td>
-<td width="33%" align="center">
-
-**⚡ Build System**
-
-[![Vite](https://img.shields.io/badge/Vite-5.1-646cff?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-
-Lightning-fast HMR & optimized production builds
-
-</td>
-<td width="33%" align="center">
-
-**🎨 Visualization**
-
-[![Recharts](https://img.shields.io/badge/Recharts-2.12-8884d8?style=for-the-badge)](https://recharts.org/)
-
-Composable charting library built on React components
-
-</td>
-</tr>
-</table>
-
-<details>
-<summary><b>📦 Complete Dependency List</b></summary>
-
-| Category | Package | Version | Purpose |
-|----------|---------|---------|---------|
-| **Framework** | React | 18.2.0 | UI library |
-| **Framework** | React DOM | 18.2.0 | DOM rendering |
-| **Build Tool** | Vite | 5.1.0 | Dev server & bundler |
-| **Routing** | React Router DOM | 6.23.0 | Client-side routing |
-| **Visualization** | Recharts | 2.12.7 | Charts & graphs |
-| **Visualization** | Wordcloud | 1.2.3 | Word cloud generator |
-| **Icons** | React Icons | 5.2.1 | Icon library (FA, MD, etc.) |
-| **Utilities** | JSZip | 3.10.1 | ZIP file generation |
-| **Storage** | IndexedDB (native) | - | Browser data persistence |
-
-</details>
-
-**Why These Technologies?**
-
-- ✅ **React 18**: Concurrent rendering, automatic batching, improved performance
-- ✅ **Vite**: 10-100x faster than traditional bundlers during development
-- ✅ **IndexedDB**: Large dataset support (100+ MB), structured queries, offline-first
-- ✅ **Recharts**: Declarative syntax, responsive, accessible charts
-- ✅ **Zero Backend**: No server costs, no data breaches, instant deployment
+| Category | Technology | Purpose |
+|----------|-----------|---------|
+| **Framework** | React 18 | Component-based UI |
+| **Build Tool** | Vite 5 | Lightning-fast HMR |
+| **Routing** | React Router 6 | Client-side navigation |
+| **Visualization** | Recharts | Charts & graphs |
+| **Storage** | IndexedDB | Local data persistence |
+| **Icons** | React Icons | UI iconography |
+| **Bundling** | ESBuild | Optimized production builds |
 
 ---
 
 ### 📖 Usage Guide
 
-#### 1️⃣ **Import Your Kindle Highlights**
+#### 1️⃣ Import Your Highlights
 
-<table>
-<tr>
-<td width="60%">
+1. Connect your Kindle via USB
+2. Navigate to `documents/My Clippings.txt`
+3. In NoteKlip, go to **Settings** → **Import**
+4. Upload the file or paste content directly
 
-**Step-by-Step Process:**
+#### 2️⃣ Explore Your Data
 
-1. **Connect Kindle to Computer**
-   - Use USB cable
-   - Wait for device recognition
-   - Kindle appears as USB drive
+- **Dashboard**: Get bird's-eye view of reading patterns
+- **Library**: Browse books with visual covers
+- **Highlights**: Search and filter individual passages
+- **Export**: Backup data as JSON for safekeeping
 
-2. **Locate Clippings File**
-   ```
-   📁 Kindle Drive
-   └── 📁 documents
-       └── 📄 My Clippings.txt
-   ```
+#### 3️⃣ Customize Your Experience
 
-3. **Import into NoteKlip**
-   - Open NoteKlip in browser
-   - Navigate to **Settings** page
-   - Click **Import Clippings**
-   - Choose file OR paste content
-   - Click **Process & Import**
-
-4. **Verify Import**
-   - Check Dashboard for statistics
-   - Browse Library for books
-   - Search Highlights for passages
-
-</td>
-<td width="40%">
-
-**Supported Formats:**
-
-✅ **Standard Kindle Format**
-```
-Book Title (Author Name)
-- Your Highlight on page 123 | 
-  Location 1234-1235 | 
-  Added on Monday, 1 January 2024
-
-Highlight text goes here.
-==========
-```
-
-✅ **Multiple Languages**
-- English Kindle
-- 中文 Kindle
-- Mixed content
-
-⚠️ **Note:** Encrypted clippings or DRM-protected content may not parse correctly.
-
-**Privacy Guarantee:**
-- 🔒 All processing is local
-- 🚫 No upload to servers
-- 💾 Stored in browser only
-
-</td>
-</tr>
-</table>
-
-#### 2️⃣ **Explore Your Reading Data**
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  📊 Dashboard                                                │
-├─────────────────────────────────────────────────────────────┤
-│  • Yearly Trends        → Track reading over time           │
-│  • Reading Heatmap      → 30-day activity visualization     │
-│  • Time Distribution    → Peak reading hours & days         │
-│  • Top Books/Authors    → Most-highlighted content          │
-│  • Author Universe      → Discover reading breadth          │
-│  • Custom Insights      → Personalized statistics           │
-└─────────────────────────────────────────────────────────────┘
-         ↓
-┌─────────────────────────────────────────────────────────────┐
-│  📚 Library                                                  │
-├─────────────────────────────────────────────────────────────┤
-│  • Visual Grid View     → Browse with cover art             │
-│  • Search & Filter      → Find books instantly              │
-│  • Sort Options         → By date/title/author/count        │
-│  • Book Details         → Click for highlights              │
-└─────────────────────────────────────────────────────────────┘
-         ↓
-┌─────────────────────────────────────────────────────────────┐
-│  🔍 Highlights                                               │
-├─────────────────────────────────────────────────────────────┤
-│  • Full-Text Search     → Find specific passages            │
-│  • Author Filter        → View by writer                    │
-│  • One-Click Copy       → Export to notes                   │
-│  • Metadata Display     → Location & timestamps             │
-└─────────────────────────────────────────────────────────────┘
-         ↓
-┌─────────────────────────────────────────────────────────────┐
-│  💾 Export & Backup                                          │
-├─────────────────────────────────────────────────────────────┤
-│  • JSON Export          → Portable data format              │
-│  • Full Backup          → All books + highlights            │
-│  • Selective Export     → Choose specific items             │
-│  • Re-import Anytime    → Restore from backup               │
-└─────────────────────────────────────────────────────────────┘
-```
-
-#### 3️⃣ **Customize Your Experience**
-
-**Dashboard Customization:**
-- 🎯 Drag & drop cards to reorder
-- 🎨 Choose date ranges for analysis
-- 📊 Select chart types (bar/line/area)
-- 🔢 Adjust top-N rankings (top 5/10/20)
-
-**Language & Preferences:**
-- 🌍 Toggle EN ⇄ 中文 anytime
-- 💾 Settings auto-saved locally
-- 🔄 Persistent across sessions
-- 🎨 Respects system dark mode (coming soon)
-
-**Power User Tips:**
-```
-Keyboard Shortcuts (Coming Soon):
-  Ctrl/Cmd + K     → Quick search
-  Ctrl/Cmd + B     → Browse library
-  Ctrl/Cmd + H     → View highlights
-  Ctrl/Cmd + E     → Export data
-  Ctrl/Cmd + /     → Show shortcuts
-```
+- **Drag & Drop**: Reorder dashboard cards
+- **Language Toggle**: Switch between EN/中文
+- **Persistent Settings**: Preferences saved locally
 
 ---
 
 ### 🔒 Privacy & Security
 
-<div align="center">
-
-**🛡️ Your Data, Your Device, Your Control**
-
-</div>
-
-| Feature | Status | Details |
-|---------|--------|---------|
-| **Local Processing** | ✅ 100% | All parsing & analysis happens in your browser |
-| **No Server Upload** | ✅ Zero | Your highlights never leave your device |
-| **No Tracking** | ✅ Zero | No analytics, cookies, or fingerprinting |
-| **No Account Required** | ✅ Anonymous | Use without registration or login |
-| **Open Source** | ✅ Transparent | Full code available for audit |
-| **Data Portability** | ✅ Export Anytime | JSON backup with no vendor lock-in |
-| **Offline Capable** | ✅ PWA Ready | Works without internet (after first load) |
-
-**Technical Security Details:**
-
-```
-Data Storage Location:
-  Browser → IndexedDB → Encrypted by OS → Your Disk Only
-  
-Data Transmission:
-  None. Zero network requests for user data.
-  Only static assets loaded from CDN.
-
-Privacy by Design:
-  ✓ No user identifiers
-  ✓ No session tracking
-  ✓ No usage telemetry
-  ✓ No third-party scripts
-  ✓ No cookies (except essential)
-```
-
-**Compliance & Certifications:**
-- ✅ GDPR Compliant (no data collection)
-- ✅ CCPA Compliant (no data sale)
-- ✅ COPPA Safe (no child data)
-- ✅ SOC 2 Type II (N/A - no servers)
-
-**What We DON'T Collect:**
-- ❌ Your highlights content
-- ❌ Book titles you've read
-- ❌ Authors you follow
-- ❌ Reading patterns or habits
-- ❌ Device information
-- ❌ IP addresses
-- ❌ Geolocation data
-- ❌ Any personally identifiable information
-
-**Security Best Practices:**
-1. Use HTTPS-enabled deployment
-2. Keep browser updated
-3. Use strong device passwords
-4. Export backups regularly
-5. Don't share exported JSON publicly (contains your data)
+- ✅ **100% Local**: No data leaves your browser
+- ✅ **No Tracking**: Zero analytics or cookies
+- ✅ **Open Source**: Full code transparency
+- ✅ **Portable**: Export and own your data
 
 ---
 
 ### 🤝 Contributing
 
-We welcome contributions from the community! Whether you're fixing bugs, adding features, improving documentation, or sharing ideas, your help is appreciated.
+We welcome contributions! Please see our contributing guidelines:
 
-<table>
-<tr>
-<td width="33%" align="center">
-
-**🐛 Bug Reports**
-
-Found an issue?
-
-[Open Issue →](https://github.com/UNICKON/klips/issues/new?template=bug_report.md)
-
-Include:
-- Steps to reproduce
-- Expected behavior
-- Actual behavior
-- Screenshots (if applicable)
-
-</td>
-<td width="33%" align="center">
-
-**💡 Feature Requests**
-
-Have an idea?
-
-[Request Feature →](https://github.com/UNICKON/klips/issues/new?template=feature_request.md)
-
-Include:
-- Use case description
-- Proposed solution
-- Alternatives considered
-- Additional context
-
-</td>
-<td width="33%" align="center">
-
-**🔧 Pull Requests**
-
-Ready to code?
-
-[Contributing Guide →](CONTRIBUTING.md)
-
-Remember:
-- Fork & branch
-- Write tests
-- Follow style guide
-- Update docs
-
-</td>
-</tr>
-</table>
-
-**Development Workflow:**
-
-```bash
-# 1️⃣ Fork and clone
-git clone https://github.com/YOUR_USERNAME/klips.git
-cd klips
-
-# 2️⃣ Create feature branch
-git checkout -b feature/amazing-feature
-
-# 3️⃣ Install dependencies
-npm install
-
-# 4️⃣ Make changes
-# ... edit code ...
-
-# 5️⃣ Test locally
-npm run dev      # Development server
-npm run build    # Production build test
-
-# 6️⃣ Commit with conventional commits
-git commit -m "feat: add amazing feature"
-git commit -m "fix: resolve issue #123"
-git commit -m "docs: update README"
-
-# 7️⃣ Push and create PR
-git push origin feature/amazing-feature
-# Then open PR on GitHub
-```
-
-**Commit Message Convention:**
-
-```
-feat:     New feature
-fix:      Bug fix
-docs:     Documentation changes
-style:    Code style changes (formatting, etc.)
-refactor: Code refactoring
-perf:     Performance improvements
-test:     Adding or updating tests
-chore:    Maintenance tasks
-```
-
-**Code Style Guidelines:**
-- ✅ Use ES6+ syntax
-- ✅ Follow existing patterns
-- ✅ Add comments for complex logic
-- ✅ Keep functions small & focused
-- ✅ Use meaningful variable names
-- ✅ Avoid deep nesting
-
-**Areas We Need Help With:**
-- 🌍 Translations (more languages)
-- 📱 Mobile responsiveness improvements
-- 🎨 UI/UX enhancements
-- 📊 New visualization types
-- 🐛 Bug fixes & stability
-- 📝 Documentation improvements
-- ♿ Accessibility (a11y) features
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ---
 
