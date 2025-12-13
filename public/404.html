@@ -1,24 +1,21 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Klip Dashboard</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Redirecting…</title>
     <script>
+      // Generic SPA fallback: send any unknown route to the app entry.
       (function () {
+        var target = '/index.html';
+        var full = window.location.pathname + window.location.search + window.location.hash;
         try {
-          var redirect = sessionStorage.getItem('gh_pages_redirect');
-          if (redirect) {
-            sessionStorage.removeItem('gh_pages_redirect');
-            history.replaceState(null, '', redirect);
-          }
+          // Keep original path for client-side router to restore if needed.
+          window.sessionStorage.setItem('spa_redirect', full);
         } catch (e) {}
+        window.location.replace(target);
       })();
     </script>
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+  <body></body>
 </html>
