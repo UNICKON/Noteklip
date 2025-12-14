@@ -21,7 +21,7 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-t1.py
+*.py
 
 process_backup.py
 

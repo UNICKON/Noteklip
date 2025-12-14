@@ -4,13 +4,14 @@ const STORAGE_KEY = 'klip.lang';
 
 const MESSAGES = {
   zh: {
-    'app.name': 'Klips',
+    'app.name': 'Noteklip',
 
     'nav.dashboard': '仪表盘',
     'nav.library': '书库',
     'nav.highlights': '高亮',
     'nav.export': '导出',
     'nav.settings': '设置',
+    'nav.support': '支持',
 
     'lang.zh': '中文',
     'lang.en': 'EN',
@@ -165,6 +166,16 @@ const MESSAGES = {
     'settings.export.moreSuffix': '。',
     'settings.export.moreLink': '高亮导出',
 
+    'support.title': '支持',
+    'support.subtitle': '面向国内与国际用户的支持入口。',
+    'support.domestic.title': '国内支持',
+    'support.domestic.desc': '反馈问题、提出建议或参与讨论。',
+    'support.international.title': '国际支持',
+    'support.international.desc': '提交问题、提出需求或参与讨论。',
+    'support.link.website': '官网',
+    'support.link.issues': '问题反馈',
+    'support.link.discussions': '讨论区',
+
     'settings.clear.title': '清除本地数据',
     'settings.clear.desc': '清空当前浏览器的所有资料（不可撤销）。',
     'settings.clear.button': '清除',
@@ -196,13 +207,14 @@ const MESSAGES = {
     'book.updateBookFail': '更新书籍信息失败',
   },
   en: {
-    'app.name': 'Klips',
+    'app.name': 'Noteklip',
 
     'nav.dashboard': 'Dashboard',
     'nav.library': 'Library',
     'nav.highlights': 'Highlights',
     'nav.export': 'Export',
     'nav.settings': 'Settings',
+    'nav.support': 'Support',
 
     'lang.zh': '中文',
     'lang.en': 'EN',
@@ -356,6 +368,16 @@ const MESSAGES = {
     'settings.export.morePrefix': 'For TXT / Markdown formats, go to ',
     'settings.export.moreSuffix': '.',
     'settings.export.moreLink': 'Highlights Export',
+
+    'support.title': 'Support',
+    'support.subtitle': 'Support entry points for users in China and worldwide.',
+    'support.domestic.title': 'Support (China)',
+    'support.domestic.desc': 'Report bugs, request features, or join discussions.',
+    'support.international.title': 'Support (International)',
+    'support.international.desc': 'Report bugs, request features, or join discussions.',
+    'support.link.website': 'Website',
+    'support.link.issues': 'Bug reports',
+    'support.link.discussions': 'Discussions',
 
     'settings.clear.title': 'Clear Local Data',
     'settings.clear.desc': 'Remove all data in this browser (irreversible).',

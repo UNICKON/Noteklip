@@ -4,7 +4,6 @@ import {
   FaTachometerAlt,
   FaBook,
   FaCog,
-  FaKiwiBird,
   FaHighlighter,
   FaDownload,
 } from 'react-icons/fa';
@@ -20,12 +19,13 @@ const navItems = [
 
 const Sidebar = () => {
   const { lang, setLang, t } = useI18n();
+  const logoSrc = `${import.meta.env.BASE_URL}kiwi-logo.svg`;
 
   return (
     <aside className="sidebar" aria-label="Primary">
       <div className="logo">
-        <FaKiwiBird className="logo-icon" />
-        <span>{t('app.name')}</span>
+        <img src={logoSrc} alt={t('app.name')} className="logo-icon" />
+        <span className="logo-text">{t('app.name')}</span>
       </div>
       <nav className="nav">
         {navItems.map(({ to, labelKey, icon: Icon, end }) => (

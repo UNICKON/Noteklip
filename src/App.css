@@ -44,13 +44,23 @@ html {
   padding: 10px;
   margin-bottom: 30px;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 8px;
+  text-align: center;
 }
 
 .logo-icon {
-    font-size: 32px;
-    color: var(--primary-color);
-    margin-right: 10px;
+    width: 48px;
+    height: 48px;
+    margin: 0;
+    object-fit: contain;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .nav {
@@ -1394,6 +1404,25 @@ header h1 {
   font-size: 0.85rem;
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.settings-actions .link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  border: 1px solid #d0d7e2;
+  background: #f1f5f9;
+  color: #0f172a;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.settings-actions .link-button:hover {
+  transform: translateY(-1px);
 }
 
 .settings-actions button:disabled {
