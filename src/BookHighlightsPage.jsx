@@ -344,7 +344,7 @@ const BookHighlightsPage = () => {
             <span>{t('book.highlightsCount', { count: highlightCount ?? highlights.length })}</span>
             <button
               type="button"
-              className="book-highlights-export-btn"
+              className="book-highlights-export-btn export-btn-float"
               onClick={handleExportBookMarkdown}
               disabled={exportingMd}
               title={t('book.exportMd.button')}
