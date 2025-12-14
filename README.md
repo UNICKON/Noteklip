@@ -14,46 +14,10 @@
 
 ## 📖 Documentation / 文档
 
-Choose your language / 选择语言：
+选择语言：
 
-<table>
-<tr>
-<td align="center" width="50%">
-<a href="./README_EN.md">
-<img src="https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/gb.svg" width="100" alt="English">
-<br><br>
-<strong>🇬🇧 English Documentation</strong>
-<br><br>
-Complete guide in English
-</a>
-</td>
-<td align="center" width="50%">
-<a href="./README_ZH.md">
-<img src="https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/cn.svg" width="100" alt="中文">
-<br><br>
-<strong>🇨🇳 中文文档</strong>
-<br><br>
-完整的中文指南
-</a>
-</td>
-</tr>
-</table>
+[English Documentation](./README_EN.md) | [中文文档](./README_ZH.md)
 
----
-
-### ⚡ Quick Start / 快速开始
-
-```bash
-# Clone repository / 克隆仓库
-git clone https://github.com/UNICKON/klips.git
-cd klips
-
-# Install dependencies / 安装依赖
-npm install
-
-# Start development server / 启动开发服务器
-npm run dev
-```
 
 ---
 
@@ -277,7 +241,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 - 🌐 Website: [noteklip.org](https://noteklip.org)
 - 🐛 Issues: [GitHub Issues](https://github.com/UNICKON/klips/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/UNICKON/klips/discussions)
 
 ---
 
@@ -501,7 +464,6 @@ npm run preview
 
 - 🌐 官网：[noteklip.org](https://noteklip.org)
 - 🐛 问题反馈：[GitHub Issues](https://github.com/UNICKON/klips/issues)
-- 💬 讨论区：[GitHub Discussions](https://github.com/UNICKON/klips/discussions)
 
 ---
 
