@@ -81,19 +81,21 @@ const AuthorPage = () => {
           {t('author.subtitle', { highlights: totalHighlights, books: booksByAuthor.length })}
         </p>
 
-        {booksByAuthor.map(book => (
-          <div key={book.id} className="modal-book-card">
-            <div className="modal-book-cover"><FaBook /></div>
-            <div className="modal-book-info">
-              <h4>{book.title}</h4>
-              <p>{book.author}</p>
-              <div className="modal-book-stats">
-                ⭐ {book.highlightsCount}
+        <div className="author-books-scroll">
+          {booksByAuthor.map(book => (
+            <div key={book.id} className="modal-book-card">
+              <div className="modal-book-cover"><FaBook /></div>
+              <div className="modal-book-info">
+                <h4>{book.title}</h4>
+                <p>{book.author}</p>
+                <div className="modal-book-stats">
+                  ⭐ {book.highlightsCount}
+                </div>
               </div>
+                <Link to={`/book/${book.id}`} className="view-clippings-button">{t('author.viewClippings')}</Link>
             </div>
-              <Link to={`/book/${book.id}`} className="view-clippings-button">{t('author.viewClippings')}</Link>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
