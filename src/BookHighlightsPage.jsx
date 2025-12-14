@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { FaStickyNote, FaEdit, FaTrash, FaSearch } from 'react-icons/fa';
 import {
@@ -52,7 +52,33 @@ const BookHighlightsPage = () => {
   const [savingBook, setSavingBook] = useState(false);
   const [bookSaveError, setBookSaveError] = useState(null);
   const [page, setPage] = useState(0);
-  const [pageSize] = useState(15);
+  const [pageSize, setPageSize] = useState(15);
+  const highlightListRef = useRef(null);
+    // 动态计算每页高亮数，使高亮区正好占满一屏
+    useEffect(() => {
+      function updatePageSize() {
+        const header = document.querySelector('.main-content .page-header');
+        const pag = document.querySelector('.main-content .pagination');
+        const main = document.querySelector('.main-content');
+        const list = highlightListRef.current;
+        if (!main || !list) return;
+        const wh = window.innerHeight;
+        const mainRect = main.getBoundingClientRect();
+        const headerH = header ? header.offsetHeight : 0;
+        const pagH = pag ? pag.offsetHeight : 0;
+        // 取一条高亮的高度
+        const item = list.querySelector('.highlight-card');
+        const itemH = item ? item.offsetHeight : 120;
+        // 额外边距
+        const margin = 32;
+        const avail = wh - mainRect.top - headerH - pagH - margin;
+        const n = Math.max(3, Math.floor(avail / itemH));
+        setPageSize(n);
+      }
+      updatePageSize();
+      window.addEventListener('resize', updatePageSize);
+      return () => window.removeEventListener('resize', updatePageSize);
+    }, []);
   const [totalCount, setTotalCount] = useState(null);
   const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -299,8 +325,9 @@ const BookHighlightsPage = () => {
                   className="edit-btn"
                   onClick={() => setEditingTitle(true)}
                   title={t('book.editTitle')}
+                  style={{ padding: 0, background: 'none', border: 'none', verticalAlign: 'middle' }}
                 >
-                  <FaEdit />
+                  <FaEdit style={{ fontSize: 16, color: '#b0b6be' }} />
                 </button>
               </>
             )}
@@ -325,7 +352,7 @@ const BookHighlightsPage = () => {
             ) : (
               <>
                 <p>
-                  {t('book.byPrefix')}
+                  
                   <Link to={`/author/${bookAuthor}`} state={{ background: location }} className="author-link">
                     {bookAuthor}
                   </Link>
@@ -334,8 +361,9 @@ const BookHighlightsPage = () => {
                   className="edit-btn"
                   onClick={() => setEditingAuthor(true)}
                   title={t('book.editAuthor')}
+                  style={{ padding: 0, background: 'none', border: 'none', verticalAlign: 'middle' }}
                 >
-                  <FaEdit />
+                  <FaEdit style={{ fontSize: 16, color: '#b0b6be' }} />
                 </button>
               </>
             )}
@@ -391,7 +419,7 @@ const BookHighlightsPage = () => {
           </div>
         </div>
       </div>
-      <div className="highlights-list-container">
+      <div className="highlights-list-container" ref={highlightListRef}>
         {highlights.map(h => {
           const key = `${book.id}-${h.id}`;
           const isOpen = openNoteKey === key;

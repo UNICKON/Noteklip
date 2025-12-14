@@ -1076,9 +1076,11 @@ header h1 {
 /* --- 结束附件样式 --- */
 .header-with-edit .author-link {
   color: #343a40;
+
 }
 .header-with-edit .author-link:visited {
     color: #343a40;
+
 }
 /* --- FIX: 添加此样式以修复作者链接颜色 --- */
 .author-link,
@@ -1120,7 +1122,7 @@ header h1 {
   text-align: center;
   width: 100%;
 }
-.actions { display: flex; gap: 16px; }
+.actions { display: flex; margin: 16px 0px; }
 .search-bar { display: flex; align-items: center; background: #fff; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; }
 .search-bar input { border: none; outline: none; margin-left: 8px; }
 .filter-button { background: #fff; border: 1px solid #ccc; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
@@ -1422,7 +1424,7 @@ header h1 {
 /* Edit and action buttons */
 .header-with-edit {
   display: flex;
-  align-items: center;
+  align-items: end;
   gap: 12px;
 }
 

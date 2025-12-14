@@ -75,7 +75,34 @@ const HighlightsView = () => {
   const [page, setPage] = useState(
     Number.isInteger(initialSnapshot.page) ? initialSnapshot.page : 0
   );
-  const [pageSize] = useState(15);
+  const [pageSize, setPageSize] = useState(15);
+  const highlightListRef = useRef(null);
+    // 动态计算每页高亮数，使高亮区正好占满一屏
+    useEffect(() => {
+      function updatePageSize() {
+        const header = document.querySelector('.main-content .page-header');
+        const pag = document.querySelector('.main-content .pagination');
+        const main = document.querySelector('.main-content');
+        const list = highlightListRef.current;
+        if (!main || !list) return;
+        const wh = window.innerHeight;
+        const mainRect = main.getBoundingClientRect();
+        const headerH = header ? header.offsetHeight : 0;
+        const pagH = pag ? pag.offsetHeight : 0;
+        // 取一条高亮的高度
+        const item = list.querySelector('.highlight-list-item');
+        const itemH = item ? item.offsetHeight : 120;
+        // 额外边距
+        const margin = 32;
+        const avail = wh - mainRect.top - headerH - pagH - margin;
+        // 多显示一条，避免视觉上“少一条”
+        const n = Math.max(3, Math.floor(avail / itemH) + 1);
+        setPageSize(n);
+      }
+      updatePageSize();
+      window.addEventListener('resize', updatePageSize);
+      return () => window.removeEventListener('resize', updatePageSize);
+    }, []);
   const [hasMore, setHasMore] = useState(false);
   const [totalCount, setTotalCount] = useState(null);
   const [monthFilter, setMonthFilter] = useState(initialSnapshot.monthFilter || '');
@@ -323,7 +350,7 @@ const HighlightsView = () => {
         </div>
       </div>
 
-      <div className="highlights-list-container">
+      <div className="highlights-list-container" ref={highlightListRef}>
         {loading && <p>{t('common.loading')}</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {displayedHighlights.length > 0 ? (
