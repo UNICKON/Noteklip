@@ -145,8 +145,13 @@ const MESSAGES = {
     'export.success': '导出成功，文件已下载。',
     'export.fail': '导出失败，请稍后重试。',
 
-    'settings.title': '资料库备份',
-    'settings.subtitle': '导入 / 导出整个本地资料库备份。',
+    'settings.title': '设置',
+    'settings.subtitle': '资料库备份、导入导出与系统相关设置。',
+
+    'settings.section.backup': '资料库备份',
+    'settings.section.backup.desc': '导入 / 导出整个本地资料库备份。',
+    'settings.section.system': '系统相关',
+    'settings.section.system.desc': '恢复默认布局或清除本地数据。',
     'settings.import.title': '导入资料库备份',
     'settings.import.desc': '选择导出的 JSON 文件，默认增量合并。',
     'settings.import.button': '导入',
@@ -184,6 +189,12 @@ const MESSAGES = {
     'settings.clear.success': '本地数据已清除，如需恢复请导入 JSON 备份。',
     'settings.clear.fail': '清除失败，请稍后再试。',
     'settings.clear.tip': '建议先导出备份再执行清除。',
+
+    'settings.resetDashboard.title': '重置仪表盘布局',
+    'settings.resetDashboard.desc': '恢复默认卡片顺序（会清除自定义拖拽顺序）。',
+    'settings.resetDashboard.button': '恢复',
+    'settings.resetDashboard.success': '已恢复默认布局，刷新后生效。',
+    'settings.resetDashboard.fail': '重置失败，请稍后重试。',
 
     'author.title': '作者：{name}',
     'author.subtitle': '你在该作者的 {books} 本书中，共有 {highlights} 条高亮。',
@@ -348,8 +359,13 @@ const MESSAGES = {
     'export.success': 'Exported. File downloaded.',
     'export.fail': 'Export failed. Please try again later.',
 
-    'settings.title': 'Library Backup',
-    'settings.subtitle': 'Import / export the entire local library backup.',
+    'settings.title': 'Settings',
+    'settings.subtitle': 'Backup, import/export, and system settings.',
+
+    'settings.section.backup': 'Library backup',
+    'settings.section.backup.desc': 'Import / export the entire local library backup.',
+    'settings.section.system': 'System',
+    'settings.section.system.desc': 'Restore defaults or clear local data.',
     'settings.import.title': 'Import Backup',
     'settings.import.desc': 'Choose an exported JSON file. Default is merge.',
     'settings.import.button': 'Import',
@@ -387,6 +403,12 @@ const MESSAGES = {
     'settings.clear.success': 'Local data cleared. Import a JSON backup to restore.',
     'settings.clear.fail': 'Clear failed. Please try again later.',
     'settings.clear.tip': 'Export a backup before clearing.',
+
+    'settings.resetDashboard.title': 'Reset dashboard layout',
+    'settings.resetDashboard.desc': 'Restore default card order (clears your drag-and-drop layout).',
+    'settings.resetDashboard.button': 'Restore',
+    'settings.resetDashboard.success': 'Defaults restored. Refresh to apply.',
+    'settings.resetDashboard.fail': 'Reset failed. Please try again.',
 
     'author.title': 'Author: {name}',
     'author.subtitle': 'You have {highlights} highlights from {books} book(s) by this author.',

@@ -12,6 +12,8 @@ const SettingsPage = () => {
   const [exportMsg, setExportMsg] = useState('');
   const [clearing, setClearing] = useState(false);
   const [clearMsg, setClearMsg] = useState('');
+  const [resettingLayout, setResettingLayout] = useState(false);
+  const [resetMsg, setResetMsg] = useState('');
 
   const buildBackupFilename = () => {
     const safeStamp = new Date().toISOString().replace(/[.:]/g, '-');
@@ -91,6 +93,23 @@ const SettingsPage = () => {
     }
   };
 
+  const handleResetDashboardLayout = () => {
+    setResettingLayout(true);
+    setResetMsg('');
+    try {
+      const chartKey = 'klip.dashboard.chartCardOrder';
+      const statKey = 'klip.dashboard.statCardOrder';
+      window.localStorage.removeItem(chartKey);
+      window.localStorage.removeItem(statKey);
+      setResetMsg(t('settings.resetDashboard.success'));
+    } catch (err) {
+      console.error(err);
+      setResetMsg(t('settings.resetDashboard.fail'));
+    } finally {
+      setResettingLayout(false);
+    }
+  };
+
   return (
     <div className="main-content settings-page">
       <div className="page-header">
@@ -100,8 +119,14 @@ const SettingsPage = () => {
         </div>
       </div>
 
-      <div className="settings-grid">
-        <section className="settings-card">
+      <div className="settings-section">
+        <div className="settings-section__header">
+          <h2 className="settings-section__title">{t('settings.section.backup')}</h2>
+          <p className="settings-section__desc">{t('settings.section.backup.desc')}</p>
+        </div>
+
+        <div className="settings-grid">
+          <section className="settings-card">
           <div className="settings-row">
             <div className="settings-row__text">
               <h2>{t('settings.import.title')}</h2>
@@ -121,9 +146,9 @@ const SettingsPage = () => {
             </div>
           </div>
           {importMsg && <p className="settings-status">{importMsg}</p>}
-        </section>
+          </section>
 
-        <section className="settings-card">
+          <section className="settings-card">
           <div className="settings-row">
             <div className="settings-row__text">
               <h2>{t('settings.export.title')}</h2>
@@ -141,9 +166,33 @@ const SettingsPage = () => {
             <Link to="/export">{t('settings.export.moreLink')}</Link>
             {t('settings.export.moreSuffix')}
           </p>
-        </section>
+          </section>
+        </div>
+      </div>
 
-        <section className="settings-card warning">
+      <div className="settings-section">
+        <div className="settings-section__header">
+          <h2 className="settings-section__title">{t('settings.section.system')}</h2>
+          <p className="settings-section__desc">{t('settings.section.system.desc')}</p>
+        </div>
+
+        <div className="settings-grid">
+          <section className="settings-card">
+            <div className="settings-row">
+              <div className="settings-row__text">
+                <h2>{t('settings.resetDashboard.title')}</h2>
+                <p>{t('settings.resetDashboard.desc')}</p>
+              </div>
+              <div className="settings-actions">
+                <button className="secondary" onClick={handleResetDashboardLayout} disabled={resettingLayout}>
+                  {resettingLayout ? t('settings.importing') : t('settings.resetDashboard.button')}
+                </button>
+              </div>
+            </div>
+            {resetMsg && <p className="settings-status">{resetMsg}</p>}
+          </section>
+
+          <section className="settings-card warning">
           <div className="settings-row">
             <div className="settings-row__text">
               <h2>{t('settings.clear.title')}</h2>
@@ -157,7 +206,8 @@ const SettingsPage = () => {
           </div>
           {clearMsg && <p className="settings-status">{clearMsg}</p>}
           <p className="settings-status">{t('settings.clear.tip')}</p>
-        </section>
+          </section>
+        </div>
       </div>
     </div>
   );
