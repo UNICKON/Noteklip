@@ -28,7 +28,22 @@ const LibraryView = () => {
   const [page, setPage] = useState(
     Number.isInteger(initialSnapshot.page) ? initialSnapshot.page : 0
   );
-  const [pageSize] = useState(18);
+  const [pageSize, setPageSize] = useState(18);
+    // 动态计算每行书本数 × 3 行
+    useEffect(() => {
+      function updatePageSize() {
+        const grid = document.querySelector('.library-grid');
+        if (grid) {
+          const style = window.getComputedStyle(grid);
+          const template = style.getPropertyValue('grid-template-columns');
+          const cols = template.split(' ').length;
+          setPageSize(cols * 3);
+        }
+      }
+      updatePageSize();
+      window.addEventListener('resize', updatePageSize);
+      return () => window.removeEventListener('resize', updatePageSize);
+    }, []);
   const [hasMore, setHasMore] = useState(false);
   const [totalCount, setTotalCount] = useState(null);
 

@@ -52,7 +52,7 @@ const BookHighlightsPage = () => {
   const [savingBook, setSavingBook] = useState(false);
   const [bookSaveError, setBookSaveError] = useState(null);
   const [page, setPage] = useState(0);
-  const [pageSize] = useState(20);
+  const [pageSize] = useState(15);
   const [totalCount, setTotalCount] = useState(null);
   const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');

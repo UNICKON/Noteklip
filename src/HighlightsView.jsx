@@ -75,7 +75,7 @@ const HighlightsView = () => {
   const [page, setPage] = useState(
     Number.isInteger(initialSnapshot.page) ? initialSnapshot.page : 0
   );
-  const [pageSize] = useState(20);
+  const [pageSize] = useState(15);
   const [hasMore, setHasMore] = useState(false);
   const [totalCount, setTotalCount] = useState(null);
   const [monthFilter, setMonthFilter] = useState(initialSnapshot.monthFilter || '');
