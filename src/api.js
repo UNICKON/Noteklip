@@ -809,13 +809,44 @@ function buildMarkdownContent(book) {
   return `${lines.join('\n').trim()}\n`;
 }
 
+function encodeRFC5987ValueChars(str) {
+  // RFC 5987: attr-char with percent-encoding for others.
+  return encodeURIComponent(str)
+    .replace(/['()]/g, (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`)
+    .replace(/\*/g, '%2A')
+    .replace(/%(7C|60|5E)/g, (m) => m.toLowerCase());
+}
+
+function toAsciiFilename(filename) {
+  return String(filename || 'download')
+    // strip control chars
+    .replace(/[\x00-\x1F\x7F]/g, '_')
+    // replace non-ascii
+    .replace(/[^\x20-\x7E]/g, '_')
+    // avoid quotes/backslashes breaking header
+    .replace(/["\\]/g, '_')
+    .trim() || 'download';
+}
+
+function buildContentDisposition(filename) {
+  const raw = String(filename || 'download');
+  const ascii = toAsciiFilename(raw);
+  const encoded = encodeRFC5987ValueChars(raw);
+  // Entire header value must be ISO-8859-1 representable.
+  return `attachment; filename="${ascii}"; filename*=UTF-8''${encoded}`;
+}
+
 export async function exportHighlights({
   export_format = 'txt',
   split_by_book = false,
   lang = 'zh',
+  book_id,
 } = {}) {
   const grouped = groupByBook(getState());
-  const books = Object.values(grouped);
+  const books = Object.values(grouped).filter((book) => {
+    if (!book_id) return true;
+    return String(book.book_id) === String(book_id);
+  });
   if (!books.length) {
     throw new Error('当前没有可导出的高亮数据');
   }
@@ -829,6 +860,7 @@ export async function exportHighlights({
     let contentBytes;
     let mediaType;
     let filename;
+    const singleBook = book_id ? orderedBooks[0] : null;
     if (export_format === 'json') {
       const payload = orderedBooks.flatMap((book) =>
         book.items.map((item) => ({
@@ -844,19 +876,29 @@ export async function exportHighlights({
       );
       contentBytes = new TextEncoder().encode(JSON.stringify(payload, null, 2));
       mediaType = 'application/json';
-      filename = 'highlights_all.json';
+      if (singleBook) {
+        const safeTitle = (singleBook.book_title || 'unknown').replace(/[\\/:*?"<>|]/g, '_');
+        filename = `${safeTitle}.json`;
+      } else {
+        filename = 'highlights_all.json';
+      }
     } else {
       const parts = orderedBooks.map((book) =>
         export_format === 'txt' ? buildTextContent(book, lang) : buildMarkdownContent(book)
       );
       contentBytes = new TextEncoder().encode(parts.join('\n\n'));
       mediaType = export_format === 'txt' ? 'text/plain; charset=utf-8' : 'text/markdown; charset=utf-8';
-      filename = export_format === 'txt' ? 'highlights_all.txt' : 'highlights_all.md';
+      if (singleBook) {
+        const safeTitle = (singleBook.book_title || 'unknown').replace(/[\\/:*?"<>|]/g, '_');
+        filename = `${safeTitle}.${export_format === 'txt' ? 'txt' : 'md'}`;
+      } else {
+        filename = export_format === 'txt' ? 'highlights_all.txt' : 'highlights_all.md';
+      }
     }
     return new Response(contentBytes, {
       headers: new Headers({
         'Content-Type': mediaType,
-        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Content-Disposition': buildContentDisposition(filename),
       }),
     });
   }
@@ -895,7 +937,7 @@ export async function exportHighlights({
   return new Response(blob, {
     headers: new Headers({
       'Content-Type': 'application/zip',
-      'Content-Disposition': 'attachment; filename="highlights_by_book.zip"',
+      'Content-Disposition': buildContentDisposition('highlights_by_book.zip'),
     }),
   });
   }

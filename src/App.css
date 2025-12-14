@@ -629,6 +629,36 @@ header h1 {
 }
 
 /* 用于 BookHighlightsPage 的摘录卡片 */
+.book-highlights-stats {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.book-highlights-export-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.book-highlights-export-btn:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.book-highlights-export-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
 .highlights-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -818,7 +848,12 @@ header h1 {
 }
 
 /* --- 结束附件样式 --- */
-
+.header-with-edit .author-link {
+  color: #343a40;
+}
+.header-with-edit .author-link:visited {
+    color: #343a40;
+}
 /* --- FIX: 添加此样式以修复作者链接颜色 --- */
 .author-link,
 .author-link:visited {
@@ -826,9 +861,6 @@ header h1 {
   text-decoration: none; /* 移除下划线 */
 }
 
-.author-link:hover {
-  text-decoration: underline;
-}
 
 .dashboard-link,
 .dashboard-link:visited,

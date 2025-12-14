@@ -5,6 +5,7 @@ import {
   getBookDetail,
   getBookHighlightCount,
   listHighlights,
+  exportHighlights,
   updateBook,
   updateHighlight,
   deleteHighlight,
@@ -13,8 +14,27 @@ import { normalizeBook, normalizeHighlight } from './utils/normalizers';
 import { formatDisplayDate } from './utils/date';
 import { useI18n } from './i18n';
 
+const parseFilename = (contentDisposition) => {
+  if (!contentDisposition) return null;
+  const filenameStar = /filename\*\s*=\s*['"]?(?:UTF-8''|)([^;'"\n]+)/i.exec(contentDisposition);
+  if (filenameStar && filenameStar[1]) {
+    try {
+      return decodeURIComponent(filenameStar[1].replace(/"/g, ''));
+    } catch (err) {
+      return filenameStar[1];
+    }
+  }
+
+  const filename = /filename\s*=\s*['"]?([^;'"\n]+)/i.exec(contentDisposition);
+  if (filename && filename[1]) {
+    return filename[1].replace(/"/g, '');
+  }
+
+  return null;
+};
+
 const BookHighlightsPage = () => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { bookId } = useParams();
   const location = useLocation();
   const [book, setBook] = useState(null);
@@ -37,6 +57,7 @@ const BookHighlightsPage = () => {
   const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('date-desc');
+  const [exportingMd, setExportingMd] = useState(false);
 
   useEffect(() => {
     setSearchInput('');
@@ -44,6 +65,35 @@ const BookHighlightsPage = () => {
     setSortBy('date-desc');
     setPage(0);
   }, [bookId]);
+
+  const handleExportBookMarkdown = async () => {
+    if (!bookId) return;
+    setExportingMd(true);
+    try {
+      const resp = await exportHighlights({
+        export_format: 'markdown',
+        split_by_book: false,
+        lang: lang === 'en' ? 'en' : 'zh',
+        book_id: bookId,
+      });
+      const blob = await resp.blob();
+      const suggestedName =
+        parseFilename(resp.headers.get('content-disposition')) || `${bookTitle || 'highlights'}.md`;
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = suggestedName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      window.alert(err?.message || t('book.exportMd.fail'));
+    } finally {
+      setExportingMd(false);
+    }
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -290,8 +340,17 @@ const BookHighlightsPage = () => {
               </>
             )}
           </div>
-          <p className="stats">
-            {t('book.highlightsCount', { count: highlightCount ?? highlights.length })}
+          <p className="book-highlights-stats">
+            <span>{t('book.highlightsCount', { count: highlightCount ?? highlights.length })}</span>
+            <button
+              type="button"
+              className="book-highlights-export-btn"
+              onClick={handleExportBookMarkdown}
+              disabled={exportingMd}
+              title={t('book.exportMd.button')}
+            >
+              {exportingMd ? t('book.exportMd.exporting') : t('book.exportMd.button')}
+            </button>
           </p>
           {savingBook && <p style={{ fontSize: 12, color: '#666' }}>{t('book.saving')}</p>}
           {bookSaveError && (

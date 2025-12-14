@@ -7,7 +7,17 @@ const ExportPage = () => {
   const { lang: uiLang, t } = useI18n();
   const [exportFormat, setExportFormat] = useState('txt');
   const [splitByBook, setSplitByBook] = useState(false);
-  const [exportLang, setExportLang] = useState(() => (uiLang === 'en' ? 'en' : 'zh'));
+  const [exportLang, setExportLang] = useState(() => {
+    const browserLang =
+      typeof navigator !== 'undefined'
+        ? (navigator.languages && navigator.languages[0]) || navigator.language || ''
+        : '';
+
+    if (/^zh\b|^zh-/i.test(browserLang)) return 'zh';
+    if (/^en\b|^en-/i.test(browserLang)) return 'en';
+
+    return uiLang === 'en' ? 'en' : 'zh';
+  });
   const [exporting, setExporting] = useState(false);
   const [exportMsg, setExportMsg] = useState('');
 
@@ -19,13 +29,17 @@ const ExportPage = () => {
 
   const parseFilename = (contentDisposition) => {
     if (!contentDisposition) return null;
-    const match = /filename\*?=['"]?(?:UTF-8''|)([^;'"\n]+)/i.exec(contentDisposition);
-    if (match && match[1]) {
+    const filenameStar = /filename\*\s*=\s*['"]?(?:UTF-8''|)([^;'"\n]+)/i.exec(contentDisposition);
+    if (filenameStar && filenameStar[1]) {
       try {
-        return decodeURIComponent(match[1].replace(/"/g, ''));
+        return decodeURIComponent(filenameStar[1].replace(/"/g, ''));
       } catch (err) {
-        return match[1];
+        return filenameStar[1];
       }
+    }
+    const filename = /filename\s*=\s*['"]?([^;'"\n]+)/i.exec(contentDisposition);
+    if (filename && filename[1]) {
+      return filename[1].replace(/"/g, '');
     }
     return null;
   };
