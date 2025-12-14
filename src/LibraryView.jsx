@@ -204,7 +204,6 @@ const LibraryView = () => {
                   </Link>
                 </p>
               </div>
-              <div className="book-card-stats">⭐ {book.highlightsCount}</div>
             </div>
           </Link>
         ))}

@@ -46,7 +46,7 @@ const DEFAULT_CHART_CARD_ORDER = [
   'authorInsights',
   'activeDays',
 ];
-const DEFAULT_STAT_CARD_ORDER = ['totalHighlights', 'activeReadingDays', 'booksNoted', 'authorsCount', 'mostReadAuthor'];
+const DEFAULT_STAT_CARD_ORDER = ['totalHighlights', 'activeReadingDays', 'booksNoted', 'mostReadAuthor', 'authorsCount'];
 const AUTHOR_TIERS = [
   { key: 'casual', label: '偶尔上榜 (1-2)', min: 1, max: 2, color: '#a5b4fc' },
   { key: 'steady', label: '稳定贡献 (3-9)', min: 3, max: 9, color: '#60a5fa' },
@@ -221,6 +221,7 @@ const Dashboard = () => {
   const [dailyTrendData, setDailyTrendData] = useState([]);
   const [totalActiveDays, setTotalActiveDays] = useState(null);
   const [heatmapView, setHeatmapView] = useState('daily');
+  const [dailyHeatmapColumnDays, setDailyHeatmapColumnDays] = useState(14);
   const monthlyHeatmapYears = 8;
   const [activeDayRows, setActiveDayRows] = useState([]);
   const [temporalStats, setTemporalStats] = useState(null);
@@ -437,8 +438,9 @@ const Dashboard = () => {
       return { weeks: [], max: 0, spanLabel: '' };
     }
 
-    const end = new Date();
-    end.setUTCHours(0, 0, 0, 0);
+    // Use the user's local "today" but keep stable UTC day keys (YYYY-MM-DD).
+    const now = new Date();
+    const end = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
 
     const earliest = activeDayRows
       .map((row) => parseDayString(row?.d))
@@ -447,6 +449,14 @@ const Dashboard = () => {
 
     let start = earliest ? new Date(earliest) : new Date(end);
     start.setUTCHours(0, 0, 0, 0);
+
+    // Ensure at least a 3-month window is shown.
+    const minStart = new Date(end);
+    minStart.setUTCMonth(minStart.getUTCMonth() - 3);
+    minStart.setUTCHours(0, 0, 0, 0);
+    if (start > minStart) {
+      start = minStart;
+    }
 
     const formatKey = (date) => {
       const year = date.getUTCFullYear();
@@ -458,37 +468,42 @@ const Dashboard = () => {
     const counts = new Map();
     activeDayRows.forEach((row) => {
       if (!row?.d) return;
-      counts.set(String(row.d), row.cnt || 0);
+      const parsed = parseDayString(String(row.d).trim());
+      if (!parsed) return;
+      counts.set(formatKey(parsed), row.cnt || 0);
     });
-
-    // Align to week boundaries for cleaner grid.
-    const alignedStart = new Date(start);
-    alignedStart.setUTCDate(alignedStart.getUTCDate() - alignedStart.getUTCDay());
-    const alignedEnd = new Date(end);
-    alignedEnd.setUTCDate(alignedEnd.getUTCDate() + (6 - alignedEnd.getUTCDay()));
 
     const spanLabel = `${formatKey(start)} - ${formatKey(end)}`;
 
-    // Build week columns (Sun..Sat) for the date range.
+    // Build columns of 7 or 14 consecutive days, aligned so row 1 is always Monday.
+    // (Mon..Sun) or (Mon..Sun..Mon..Sun) per column.
+    const COLUMN_DAYS = dailyHeatmapColumnDays === 7 ? 7 : 14;
     const weeks = [];
-    let currentWeek = Array(7).fill(null);
+    let currentColumn = Array(COLUMN_DAYS).fill(null);
+
+    const alignedStart = new Date(start);
+    const weekdayMonIndex = (alignedStart.getUTCDay() + 6) % 7; // Mon=0..Sun=6
+    alignedStart.setUTCDate(alignedStart.getUTCDate() - weekdayMonIndex);
+
     let cursor = new Date(alignedStart);
-    while (cursor <= alignedEnd) {
-      const weekday = cursor.getUTCDay();
-      const key = formatKey(cursor);
-      if (cursor >= start && cursor <= end) {
+    let index = 0;
+    while (cursor <= end) {
+      const slot = index % COLUMN_DAYS;
+      if (cursor >= start) {
+        const key = formatKey(cursor);
         const cnt = counts.get(key) || 0;
-        currentWeek[weekday] = { d: key, cnt, weekday };
+        currentColumn[slot] = { d: key, cnt, slot };
       }
 
-      if (weekday === 6) {
-        weeks.push(currentWeek);
-        currentWeek = Array(7).fill(null);
+      if (slot === COLUMN_DAYS - 1) {
+        weeks.push(currentColumn);
+        currentColumn = Array(COLUMN_DAYS).fill(null);
       }
+      index += 1;
       cursor.setUTCDate(cursor.getUTCDate() + 1);
     }
-    if (currentWeek.some(Boolean)) {
-      weeks.push(currentWeek);
+    if (currentColumn.some(Boolean)) {
+      weeks.push(currentColumn);
     }
 
     let max = 0;
@@ -500,7 +515,21 @@ const Dashboard = () => {
     });
 
     return { weeks, max, spanLabel };
-  }, [activeDayRows]);
+  }, [activeDayRows, dailyHeatmapColumnDays]);
+
+  const monthlyHeatmapYearSpan = useMemo(() => {
+    const years = Array.isArray(monthlyHeatmap)
+      ? monthlyHeatmap
+          .map((row) => Number(row?.year))
+          .filter((year) => Number.isFinite(year))
+      : [];
+    if (years.length) {
+      const minYear = Math.min(...years);
+      const maxYear = Math.max(...years);
+      return `${minYear} - ${maxYear}`;
+    }
+    return lang === 'en' ? `Last ${monthlyHeatmapYears} years` : `最近 ${monthlyHeatmapYears} 年`;
+  }, [monthlyHeatmap, monthlyHeatmapYears, lang]);
   const sortedAuthorBooks = useMemo(() => {
     if (!authorBooksData.length) {
       return [];
@@ -521,22 +550,10 @@ const Dashboard = () => {
       };
     });
   }, [dailyTrendData]);
-  const dailyPulseHeadline = useMemo(() => {
-    if (dailyTrendSeries.length < 2) {
-      return null;
-    }
-    const latest = dailyTrendSeries[dailyTrendSeries.length - 1];
-    const prevIndex = Math.max(0, dailyTrendSeries.length - 8);
-    const prev = dailyTrendSeries[prevIndex];
-    if (!latest || !prev) {
-      return null;
-    }
-    return {
-      latestDate: latest.date,
-      latestCount: latest.count,
-      delta: latest.count - prev.count,
-    };
-  }, [dailyTrendSeries]);
+  const dailyPulseActiveDays = useMemo(
+    () => dailyTrendSeries.reduce((sum, item) => sum + ((item?.count || 0) > 0 ? 1 : 0), 0),
+    [dailyTrendSeries]
+  );
   const weekdayDistribution = useMemo(() => {
     if (!Array.isArray(temporalStats?.by_weekday) || temporalStats.by_weekday.length === 0) {
       return [];
@@ -1049,6 +1066,18 @@ const Dashboard = () => {
   }, [dailyHeatmap.weeks.length, heatmapView]);
 
   useEffect(() => {
+    if (heatmapView !== 'daily') return;
+    if (!dailyHeatmap.weeks.length) return;
+    const el = dailyHeatmapScrollRef.current;
+    if (!el) return;
+    const id = window.requestAnimationFrame(() => {
+      el.scrollLeft = Math.max(0, el.scrollWidth - el.clientWidth);
+      didAutoScrollDailyHeatmapRef.current = true;
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [dailyHeatmapColumnDays, heatmapView, dailyHeatmap.weeks.length]);
+
+  useEffect(() => {
     let cancelled = false;
     async function loadHeatmap() {
       try {
@@ -1402,24 +1431,21 @@ const Dashboard = () => {
                     </div>
           {dailyTrendSeries.length ? (
             <>
-              {dailyPulseHeadline && (
-                <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '8px' }}>
-                  {t('dashboard.pulse.headline', {
-                    date: dailyPulseHeadline.latestDate,
-                    count: dailyPulseHeadline.latestCount,
-                    sign: dailyPulseHeadline.delta >= 0 ? '+' : '',
-                    delta: dailyPulseHeadline.delta,
-                  })}
-                </div>
-              )}
+              <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '8px' }}>
+                {t('dashboard.pulse.headline', {
+                  count: dailyPulseActiveDays,
+                })}
+              </div>
               <div className="chart-body">
                 <ResponsiveContainer width="100%" height={280}>
-                  <LineChart data={dailyTrendSeries} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+                  <LineChart data={dailyTrendSeries} margin={{ top: 5, right: 18, left: 6, bottom: 10 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
                       dataKey="date"
                       tick={{ fontSize: 11 }}
                       tickFormatter={(value) => (value ? value.slice(5) : '')}
+                      interval="preserveStartEnd"
+                      tickMargin={8}
                     />
                     <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
                     <Tooltip />
@@ -1493,7 +1519,28 @@ const Dashboard = () => {
                   <>
 
           <div className="heatmap-card-header" {...chartHandleProps('heatmap')}>
-            <h3>{t('dashboard.heatmap.title')}</h3>
+            <div className="heatmap-title-block">
+              <h3>{t('dashboard.heatmap.title')}</h3>
+              {heatmapView === 'daily' && dailyHeatmap.weeks.length ? (
+                <div className="heatmap-subtitle">
+                  <span>{dailyHeatmap.spanLabel}</span>
+                  <button
+                    type="button"
+                    className="heatmap-subtitle-btn"
+                    onClick={() =>
+                      setDailyHeatmapColumnDays((prev) => (prev === 14 ? 7 : 14))
+                    }
+                    aria-label={t('dashboard.heatmap.daily.layoutToggle.aria')}
+                  >
+                    {dailyHeatmapColumnDays === 14
+                      ? t('dashboard.heatmap.daily.layoutToggle.to7')
+                      : t('dashboard.heatmap.daily.layoutToggle.to14')}
+                  </button>
+                </div>
+              ) : heatmapView === 'monthly' ? (
+                <div className="heatmap-subtitle">{monthlyHeatmapYearSpan}</div>
+              ) : null}
+            </div>
             <div className="heatmap-toggle" role="tablist" aria-label={t('dashboard.heatmap.toggle.aria')}>
               <button
                 type="button"
@@ -1519,16 +1566,16 @@ const Dashboard = () => {
           {heatmapView === 'daily' ? (
             dailyHeatmap.weeks.length ? (
               <>
-                <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '8px' }}>
-                  {dailyHeatmap.spanLabel}
-                </div>
-
                 <div
                   className="daily-heatmap-scroll"
                   aria-label={t('dashboard.heatmap.daily.scrollAria')}
                   ref={dailyHeatmapScrollRef}
                 >
-                  <div className="daily-heatmap" role="grid" aria-label={t('dashboard.heatmap.daily.gridAria')}>
+                  <div
+                    className={`daily-heatmap ${dailyHeatmapColumnDays === 7 ? 'is-7' : 'is-14'}`}
+                    role="grid"
+                    aria-label={t('dashboard.heatmap.daily.gridAria')}
+                  >
                     {dailyHeatmap.weeks.map((week, weekIdx) => (
                       <div key={`week-${weekIdx}`} className="daily-heatmap-week" role="row">
                         {week.map((cell, weekdayIdx) => {
@@ -1716,12 +1763,12 @@ const Dashboard = () => {
             <>
               {seasonalPeak && (
                 <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '8px' }}>
-                  {t('dashboard.seasonal.peak', { month: seasonalPeak.label, count: seasonalPeak.count })}
+                  {t('dashboard.seasonal.peak', { month: seasonalPeak.label})}
                 </div>
               )}
               <div className="chart-body">
                 <ResponsiveContainer width="100%" height={260}>
-                  <AreaChart data={seasonalDistribution} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+                  <AreaChart data={seasonalDistribution} margin={{ top: 5, right: 10, left: 0, bottom: 26 }}>
                     <defs>
                       <linearGradient id="seasonalGradient" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#ec4899" stopOpacity={0.8} />
@@ -1729,7 +1776,14 @@ const Dashboard = () => {
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="label" tick={{ fontSize: 12 }} />
+                    <XAxis
+                      dataKey="label"
+                      tick={{ fontSize: 11 }}
+                      interval={1}
+                      minTickGap={8}
+                      height={30}
+                      tickMargin={8}
+                    />
                     <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
                     <Tooltip formatter={(value) => [formatHighlightsCount(value), t('dashboard.highlightsLabel')]} />
                     <Area
@@ -2063,19 +2117,19 @@ const Dashboard = () => {
                       <span>
                         {index + 1}. {author.name}
                       </span>
-                      <span style={{ fontSize: '12px', color: '#94a3b8' }}>{author.share}%</span>
+                      <span style={{ fontSize: '12px', color: '#94a3b8' }}>
+                        {lang === 'en' ? `${author.bookCount || 0} book(s)` : `${author.bookCount || 0} 本`}
+                      </span>
                     </div>
                     <div
                       className="insight-progress"
                       title={t('dashboard.authorInsights.voiceTooltip', {
                         count: author.count,
                         books: author.bookCount || 0,
-                        share: author.share,
                       })}
                       aria-label={t('dashboard.authorInsights.voiceTooltip', {
                         count: author.count,
                         books: author.bookCount || 0,
-                        share: author.share,
                       })}
                     >
                       <div
@@ -2119,8 +2173,8 @@ const Dashboard = () => {
                   {authorsByBooks.slice(0, 8).map((author) => (
                     <option key={author.name} value={author.name}>
                       {lang === 'en'
-                        ? `${author.name} (${author.bookCount || 0})`
-                        : `${author.name}（${author.bookCount || 0}）`}
+                        ? `${author.name} - ${author.bookCount || 0} book(s)`
+                        : `${author.name} - ${author.bookCount || 0}本`}
                     </option>
                   ))}
                 </select>

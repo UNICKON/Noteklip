@@ -51,15 +51,18 @@ const MESSAGES = {
     'dashboard.activityTrend.title': '年份活跃趋势',
     'dashboard.topBooks.title': '高亮最多的 5 本书',
     'dashboard.topAuthors.title': '高亮最多的作者',
-    'dashboard.pulse.title': '近 30 天情况',
-    'dashboard.pulse.headline': '近 {date}：{count} 条（较 7 天前 {sign}{delta}）',
+    'dashboard.pulse.title': '近 30 天',
+    'dashboard.pulse.headline': '有{count} 天活跃',
 
-    'dashboard.heatmap.title': '活跃热力图',
+    'dashboard.heatmap.title': '热力图',
     'dashboard.heatmap.toggle.aria': '切换热力图视图',
     'dashboard.heatmap.toggle.daily': '按日',
     'dashboard.heatmap.toggle.monthly': '按月',
     'dashboard.heatmap.daily.scrollAria': '每日热力图滚动区域',
     'dashboard.heatmap.daily.gridAria': '每日热力图',
+    'dashboard.heatmap.daily.layoutToggle.aria': '切换每日热力图列样式（每列 7 天 / 14 天）',
+    'dashboard.heatmap.daily.layoutToggle.to7': '7天/列',
+    'dashboard.heatmap.daily.layoutToggle.to14': '14天/列',
     'dashboard.heatmap.monthly.gridAria': '每月热力图（最近 {years} 年）',
     'dashboard.heatmap.cellTitle': '{key}: {count}',
 
@@ -68,15 +71,15 @@ const MESSAGES = {
     'dashboard.hour.title': '最常看书时段',
     'dashboard.hour.peak': '阅读高峰约在 {time}',
     'dashboard.seasonal.title': '最常看书月份',
-    'dashboard.seasonal.peak': '{month} 活跃度最高（{count} 条）',
+    'dashboard.seasonal.peak': '{month} 活跃度最高',
 
     'dashboard.activeDays.title': '活跃天数概览',
-    'dashboard.activeDays.totalActiveDays': '累计活跃天数',
+    'dashboard.activeDays.totalActiveDays': '累计天数',
     'dashboard.activeDays.longestStreak': '最长连续天数',
     'dashboard.activeDays.trailingStreak': '最近连续天数',
-    'dashboard.activeDays.avgPerActiveDay': '平均每活跃日高亮',
-    'dashboard.activeDays.busiestDay': '单日最高高亮',
-    'dashboard.activeDays.lastActiveDay': '最近活跃日期',
+    'dashboard.activeDays.avgPerActiveDay': '平均每日高亮',
+    'dashboard.activeDays.busiestDay': '单日最多高亮',
+    'dashboard.activeDays.lastActiveDay': '最近活跃',
 
     'dashboard.yearly.title': '年度概览',
     'dashboard.yearly.span': '覆盖年份',
@@ -94,7 +97,7 @@ const MESSAGES = {
     'dashboard.authorInsights.avgPerBook': '平均每本书',
     'dashboard.authorInsights.top3Books': 'Top 3 作者合计覆盖 {books} 本书',
     'dashboard.authorInsights.topVoices': '看得最多的作者',
-    'dashboard.authorInsights.voiceTooltip': '高亮 {count} 条 · {books} 本书 · 占比 {share}%',
+    'dashboard.authorInsights.voiceTooltip': '高亮 {count} 条 · {books} 本书',
 
     'dashboard.authorBooks.title': '看得最多的作者',
 
@@ -269,7 +272,7 @@ const MESSAGES = {
     'dashboard.topBooks.title': 'Top 5 Books by Highlights',
     'dashboard.topAuthors.title': 'Top authors by highlights',
     'dashboard.pulse.title': 'Last 30 days',
-    'dashboard.pulse.headline': 'Last {date}: {count} highlights ({sign}{delta} vs 7 days ago)',
+    'dashboard.pulse.headline': 'Active {count} day(s)',
 
     'dashboard.heatmap.title': 'Heatmap',
     'dashboard.heatmap.toggle.aria': 'Switch heatmap view',
@@ -277,6 +280,9 @@ const MESSAGES = {
     'dashboard.heatmap.toggle.monthly': 'Monthly',
     'dashboard.heatmap.daily.scrollAria': 'Daily heatmap scroll area',
     'dashboard.heatmap.daily.gridAria': 'Daily heatmap',
+    'dashboard.heatmap.daily.layoutToggle.aria': 'Toggle daily heatmap column layout (7/14 days per column)',
+    'dashboard.heatmap.daily.layoutToggle.to7': '7d/col',
+    'dashboard.heatmap.daily.layoutToggle.to14': '14d/col',
     'dashboard.heatmap.monthly.gridAria': 'Monthly heatmap (last {years} years)',
     'dashboard.heatmap.cellTitle': '{key}: {count}',
 
@@ -285,7 +291,7 @@ const MESSAGES = {
     'dashboard.hour.title': 'Highlights by hour',
     'dashboard.hour.peak': 'Peak around {time}',
     'dashboard.seasonal.title': 'Highlights by month',
-    'dashboard.seasonal.peak': '{month} is highest ({count} highlights)',
+    'dashboard.seasonal.peak': '{month} is highest',
 
     'dashboard.activeDays.title': 'Active days overview',
     'dashboard.activeDays.totalActiveDays': 'Total active days',
@@ -311,7 +317,7 @@ const MESSAGES = {
     'dashboard.authorInsights.avgPerBook': 'Avg per book',
     'dashboard.authorInsights.top3Books': 'Top 3 authors cover {books} book(s)',
     'dashboard.authorInsights.topVoices': 'Top authors',
-    'dashboard.authorInsights.voiceTooltip': '{count} highlights · {books} book(s) · {share}%',
+    'dashboard.authorInsights.voiceTooltip': '{count} highlights · {books} book(s)',
 
     'dashboard.authorBooks.title': 'Books by author',
 
