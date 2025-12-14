@@ -33,20 +33,20 @@ const WEEKDAY_ORDER = [1, 2, 3, 4, 5, 6, 0];
 const DASHBOARD_CHART_ORDER_KEY = 'klip.dashboard.chartCardOrder';
 const DASHBOARD_STAT_ORDER_KEY = 'klip.dashboard.statCardOrder';
 const DEFAULT_CHART_CARD_ORDER = [
-  'activityTrend',
+  'authorBooks',
   'topBooks',
   'topAuthors',
+  'activityTrend',
   'pulse',
   'heatmap',
   'weekday',
   'hour',
   'seasonal',
-  'activeDays',
   'yearly',
   'authorInsights',
-  'authorBooks',
+  'activeDays',
 ];
-const DEFAULT_STAT_CARD_ORDER = ['totalHighlights', 'booksNoted', 'authorsCount', 'mostReadAuthor', 'activeReadingDays'];
+const DEFAULT_STAT_CARD_ORDER = ['totalHighlights', 'activeReadingDays', 'booksNoted', 'authorsCount', 'mostReadAuthor'];
 const AUTHOR_TIERS = [
   { key: 'casual', label: '偶尔上榜 (1-2)', min: 1, max: 2, color: '#a5b4fc' },
   { key: 'steady', label: '稳定贡献 (3-9)', min: 3, max: 9, color: '#60a5fa' },
