@@ -69,12 +69,8 @@ export function normalizeBook(raw = {}) {
       )
     : [];
 
-  // 处理封面 URL：如果是相对路径（如 covers/xxx.jpg），则转为绝对路径
-  let coverUrl = raw.coverUrl ?? raw.cover_url ?? raw.cover ?? null;
-  if (coverUrl && !coverUrl.startsWith('http://') && !coverUrl.startsWith('https://') && !coverUrl.startsWith('data:')) {
-    // 相对路径，补全为绝对路径（假设相对于网站根路径）
-    coverUrl = `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, '')}/${coverUrl}`;
-  }
+  // 只保留直接赋值 coverUrl，不再做本地路径补全
+  let coverUrl = raw.coverUrl || raw.cover_url || raw.cover || raw.book_cover || null;
 
   return {
     id: baseId,

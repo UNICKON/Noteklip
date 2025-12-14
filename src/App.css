@@ -1,3 +1,41 @@
+/* AuthorPage 卡片背景图片铺满整个卡片 */
+.modal-book-card {
+  position: relative;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+.modal-book-card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transition: transform 0.2s;
+}
+.modal-book-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.68);
+  z-index: 1;
+}
+.modal-book-info, .modal-book-stats, .modal-book-cover {
+  position: relative;
+  z-index: 2;
+}
+/* AuthorPage 卡片图片铺满左侧 */
+.modal-book-card {
+  position: relative;
+  overflow: hidden;
+}
+.modal-book-cover-img {
+  width: 80px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px 0 0 8px;
+  flex-shrink: 0;
+  display: block;
+}
 .export-btn-float {
   opacity: 0;
   pointer-events: none;
@@ -13,7 +51,7 @@
   margin-bottom: 8px;
   padding-right: 2px;
   scrollbar-width: thin;
-  scrollbar-color: #e0e4ea #f8f9fa;
+  scrollbar-color: #f8f9fa #ffffff;
 }
 .author-books-scroll::-webkit-scrollbar {
   width: 7px;

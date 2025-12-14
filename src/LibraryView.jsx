@@ -196,6 +196,7 @@ const LibraryView = () => {
             <div className="book-cover">
               {book.coverUrl ? (
                 <img
+                  key={book.id}
                   src={book.coverUrl}
                   alt={t('library.bookCoverAlt', { title: book.title || '' })}
                   onError={(e) => (e.target.style.display = 'none')}

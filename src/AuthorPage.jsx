@@ -83,17 +83,30 @@ const AuthorPage = () => {
 
         <div className="author-books-scroll">
           {booksByAuthor.map(book => (
-            <div key={book.id} className="modal-book-card">
-              <div className="modal-book-cover"><FaBook /></div>
+            <Link
+              key={book.id}
+              to={`/book/${book.id}`}
+              className="modal-book-card"
+              style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer', position: 'relative', overflow: 'hidden' }}
+            >
+              {book.coverUrl && (
+                <img
+                  src={book.coverUrl}
+                  alt={book.title}
+                  className="modal-book-card-bg"
+                  onError={e => { e.target.style.display = 'none'; }}
+                />
+              )}
+              <div className="modal-book-card-overlay" />
               <div className="modal-book-info">
                 <h4>{book.title}</h4>
                 <p>{book.author}</p>
-                <div className="modal-book-stats">
-                  ⭐ {book.highlightsCount}
-                </div>
               </div>
-                <Link to={`/book/${book.id}`} className="view-clippings-button">{t('author.viewClippings')}</Link>
-            </div>
+              <div className="modal-book-stats" style={{ marginLeft: 'auto' }}>
+                ⭐ {book.highlightsCount}
+              </div>
+              {/* 无图片时不再显示书本图标，仅保留信息 */}
+            </Link>
           ))}
         </div>
       </div>
