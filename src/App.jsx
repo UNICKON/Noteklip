@@ -1,4 +1,25 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useEffect } from 'react';
+import { useI18n } from './i18n';
+// 多语言 description 文本
+const DESCRIPTIONS = {
+    zh: 'Noteklip Dashboard - 管理和导出 Kindle 高亮、笔记与书籍信息，提升阅读体验，便捷整理与分享您的阅读成果。',
+    en: 'Noteklip Dashboard - Manage and export Kindle highlights, notes, and book info to enhance your reading experience. Easily organize and share your reading insights.'
+};
+
+// 动态设置 meta description
+function MetaDescription() {
+    const { lang } = useI18n();
+    useEffect(() => {
+        let meta = document.querySelector('meta[name="description"]');
+        if (!meta) {
+            meta = document.createElement('meta');
+            meta.name = 'description';
+            document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', DESCRIPTIONS[lang] || DESCRIPTIONS.zh);
+    }, [lang]);
+    return null;
+}
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Dashboard from './Dashboard';
@@ -64,16 +85,18 @@ const ScrollMemory = () => {
 };
 
 
+
 function App() {
-  return (
+    return (
         <Router basename={import.meta.env.BASE_URL}>
-                <ScrollMemory />
-        <div className="app-container">
-            <Sidebar />
-            <AppRoutes />
-        </div>
-    </Router>
-  );
+            <MetaDescription />
+            <ScrollMemory />
+            <div className="app-container">
+                <Sidebar />
+                <AppRoutes />
+            </div>
+        </Router>
+    );
 }
 
 export default App;
