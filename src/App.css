@@ -244,30 +244,38 @@ html {
 
 .sidebar-footer {
   margin-top: auto;
-  padding-top: 16px;
+  padding-top: 5px;
   border-top: 1px solid var(--border-color);
 }
 
 .lang-switch {
   display: flex;
-  gap: 8px;
+  gap: 0;
+  width: 100%;
 }
+
 
 .lang-switch-btn {
   appearance: none;
   border: 1px solid var(--border-color);
   background: transparent;
   color: var(--text-secondary);
-  padding: 6px 10px;
-  border-radius: 10px;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
+  flex: 1;
+  border-radius: 0;
+  border-right: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.lang-switch-btn:first-child {
+  border-radius: 10px 0 0 10px;
+}
+.lang-switch-btn:last-child {
+  border-radius: 0 10px 10px 0;
+  border-right: 1px solid var(--border-color);
 }
 
-.lang-switch-btn.active {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
-}
+
 .nav-item {
   width: 100%;
   display: flex;

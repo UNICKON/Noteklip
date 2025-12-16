@@ -43,32 +43,36 @@ const Sidebar = () => {
       </nav>
 
       <div className="sidebar-footer" aria-label={t('lang.switch.aria')}>
-        <div className="lang-switch" role="group" aria-label={t('lang.switch.aria')}>
-          <button
-            type="button"
-            className={`lang-switch-btn${lang === 'zh' ? ' active' : ''}`}
-            onClick={() => setLang('zh')}
-          >
-            {t('lang.zh')}
-          </button>
-          <button
-            type="button"
-            className={`lang-switch-btn${lang === 'en' ? ' active' : ''}`}
-            onClick={() => setLang('en')}
-          >
-            {t('lang.en')}
-          </button>
-        </div>
-        <div style={{ marginTop: 18, textAlign: 'center' }}>
-          <a
-            href="https://github.com/UNICKON/Noteklip"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: '#64748b', opacity: 0.85, fontSize: 22, display: 'inline-block' }}
-            title="GitHub"
-          >
-            <FaGithub />
-          </a>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', width: '100%' }}>
+          <div style={{ textAlign: 'center', marginBottom: 1 }}>
+            <a
+              href="https://github.com/UNICKON/Noteklip"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: '#64748b', opacity: 0.85, fontSize: 22, display: 'inline-block' }}
+              title="GitHub"
+            >
+              <FaGithub />
+            </a>
+          </div>
+          <div className="lang-switch" role="group" aria-label={t('lang.switch.aria')} style={{ display: 'flex', gap: 0 }}>
+            <button
+              type="button"
+              className={`lang-switch-btn${lang === 'zh' ? ' active' : ''}`}
+              onClick={() => setLang('zh')}
+              style={{ flex: 1, borderRadius: '10px 0 0 10px', width: '50%' }}
+            >
+              {t('lang.zh')}
+            </button>
+            <button
+              type="button"
+              className={`lang-switch-btn${lang === 'en' ? ' active' : ''}`}
+              onClick={() => setLang('en')}
+              style={{ flex: 1, borderRadius: '0 10px 10px 0', width: '50%' }}
+            >
+              {t('lang.en')}
+            </button>
+          </div>
         </div>
       </div>
     </aside>
