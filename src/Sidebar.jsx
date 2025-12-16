@@ -6,6 +6,7 @@ import {
   FaCog,
   FaHighlighter,
   FaDownload,
+  FaGithub,
 } from 'react-icons/fa';
 import { useI18n } from './i18n';
 
@@ -57,6 +58,17 @@ const Sidebar = () => {
           >
             {t('lang.en')}
           </button>
+        </div>
+        <div style={{ marginTop: 18, textAlign: 'center' }}>
+          <a
+            href="https://github.com/UNICKON/Noteklip"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#64748b', opacity: 0.85, fontSize: 22, display: 'inline-block' }}
+            title="GitHub"
+          >
+            <FaGithub />
+          </a>
         </div>
       </div>
     </aside>

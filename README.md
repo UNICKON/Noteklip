@@ -110,11 +110,4 @@ Kindle highlights · My Clippings.txt · Kindle notes · reading analytics · hi
 - 希望系统回顾与复盘标注内容的人
 - 知识管理 / PKM 爱好者
 
----
-
-<div align="center">
-
-**Made by readers, for readers.**  
-**由读者制作，为读者服务。**
-
 </div>
