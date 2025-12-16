@@ -23,6 +23,28 @@
   </head>
   <body>
     <div id="root"></div>
+      <script>
+      // 简单埋点：每次页面加载时向后端发送请求
+      function getOrSetUserId() {
+        let uid = localStorage.getItem('klip_uid');
+        if (!uid) {
+          uid = Math.random().toString(36).substring(2) + Date.now();
+          localStorage.setItem('klip_uid', uid);
+        }
+        return uid;
+      }
+    
+      fetch('https://api.noteklip.org/track_uv', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          uid: getOrSetUserId(),
+          date: new Date().toISOString().slice(0, 10)
+        })
+      });
+      </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
