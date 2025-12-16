@@ -32,8 +32,8 @@ It turns the raw `My Clippings.txt` file into a **searchable, structured, and vi
 - 🔍 **Powerful Search**  
   Full-text search across all Kindle highlights
 
-- 📚 **Book & Author Analytics**  
-  Instantly see your most-highlighted books and authors
+- ✏️ **Editable Metadata**  
+  Edit book titles and authors to fix inconsistencies in `My Clippings.txt`
 
 - 📤 **Export & Reuse**  
   Export highlights for backup or use in other tools
@@ -85,9 +85,9 @@ Kindle highlights · My Clippings.txt · Kindle notes · reading analytics · hi
 - 🔍 **全文搜索**  
   快速定位任意 Kindle 高亮段落
 
-- 📚 **书籍与作者分析**  
-  一眼看出你最常标注的书籍与作者
-
+- ✏️ **标注元数据编辑**  
+  支持编辑书名与作者，修正 `My Clippings.txt` 中的不规范信息
+  
 - 📤 **导出与复用**  
   导出标注，用于二次整理与知识管理
 
